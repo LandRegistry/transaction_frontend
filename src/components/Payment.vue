@@ -71,7 +71,7 @@ export default {
 
   },
   methods: {
-    
+
   },
   created: function () {
     var data = JSON.stringify({
@@ -80,7 +80,7 @@ export default {
         "user": "hmlr"
     })
 
-    fetch('http://192.168.2.127:3500/api/get/asset', {
+    fetch(process.env.BACKEND_URL + '/api/get/asset', {
       method: 'POST',
       mode: 'cors',
       body: data,

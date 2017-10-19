@@ -122,7 +122,7 @@ export default {
       user: "admin"
     });
 
-    const getUser = (user) => fetch('http://192.168.2.127:3500/api/get/participant', {
+    const getUser = (user) => fetch(process.env.BACKEND_URL + '/api/get/participant', {
       method: 'POST',
       mode: 'cors',
       body: user,
@@ -205,7 +205,7 @@ export default {
           ]
         }
       }
-      fetch('http://192.168.2.127:3500/api/create/propertyexchange', {
+      fetch(process.env.BACKEND_URL + '/api/create/propertyexchange', {
         method: 'POST',
         mode: 'cors',
         body: JSON.stringify(body),

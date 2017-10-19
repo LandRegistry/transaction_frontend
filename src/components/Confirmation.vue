@@ -103,7 +103,7 @@ export default {
         'user': 'hmlr'
       });
 
-      var response = await fetch('http://192.168.2.127:3500/api/get/asset', {
+      var response = await fetch(process.env.BACKEND_URL + '/api/get/asset', {
         method: 'POST',
         mode: 'cors',
         body: data,
@@ -123,7 +123,7 @@ export default {
         'user': 'admin'
       });
 
-      var response = await fetch('http://192.168.2.127:3500/api/get/participant', {
+      var response = await fetch(process.env.BACKEND_URL + '/api/get/participant', {
         method: 'POST',
         mode: 'cors',
         body: data,

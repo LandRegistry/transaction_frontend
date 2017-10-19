@@ -155,8 +155,8 @@ export default {
             "id": this.$route.params.propertyExchangeId,
             "user": this.$route.params.sellerId
         });
-
-        const response = await fetch('http://localhost:3500/api/get/asset', {
+        
+        const response = await fetch(process.env.BACKEND_URL + '/api/get/asset', {
             method: 'POST',
             mode: 'cors',
             body: payload,

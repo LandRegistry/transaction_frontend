@@ -39,7 +39,7 @@ export default {
       'type': 'Property',
     });
 
-    const response = await fetch('http://192.168.2.127:3500/api/get/asset/all', {
+    const response = await fetch(process.env.BACKEND_URL + '/api/get/asset/all', {
       method: 'POST',
       mode: 'cors',
       body: data,

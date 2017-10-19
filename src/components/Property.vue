@@ -7,9 +7,9 @@
     <div class="headerText">
     <div class="pageTitle">Your Property</div>
     <div class="subTitle">DETAILS</div>
-    
+
     </div>
-    
+
     <div class="details">
       <div id="locationMap" v-on:click="displayMap"></div>
       <div style="margin-top: 250px;">
@@ -122,7 +122,7 @@
           'user': 'hmlr'
         });
 
-        var response = await fetch('http://192.168.2.127:3500/api/get/asset', {
+        var response = await fetch(process.env.BACKEND_URL + '/api/get/asset', {
           method: 'POST',
           mode: 'cors',
           body: data,

@@ -59,7 +59,7 @@ export default {
         }
       });
 
-      const response = await fetch('http://192.168.2.127:3500/api/transaction', {
+      const response = await fetch(process.env.BACKEND_URL + '/api/transaction', {
         method: 'POST',
         mode: 'cors',
         body: data,

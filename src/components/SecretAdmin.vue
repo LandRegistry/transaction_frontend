@@ -100,7 +100,7 @@ export default {
         "user": "hmlr"
     })
 
-    fetch('http://192.168.2.127:3500/api/get/asset/all', {
+    fetch(process.env.BACKEND_URL + '/api/get/asset/all', {
       method: 'POST',
       mode: 'cors',
       body: data,
@@ -130,7 +130,7 @@ export default {
       var messagedata = {message: "Getting details, please wait...", timeout: 1500}
       snackbarContainer.MaterialSnackbar.showSnackbar(messagedata)
 
-      fetch('http://192.168.2.127:3500/api/get/asset', {
+      fetch(process.env.BACKEND_URL + '/api/get/asset', {
         method: 'POST',
         mode: 'cors',
         body: data,
@@ -148,7 +148,7 @@ export default {
                           messagedata.message = "Details retrieved"
                           snackbarContainer.MaterialSnackbar.showSnackbar(messagedata)
         });
-        
+
 
     },
     dodeposit: function() {
@@ -169,7 +169,7 @@ export default {
       var messagedata = {message: "Making payment, please wait...", timeout: 1500}
       snackbarContainer.MaterialSnackbar.showSnackbar(messagedata)
 
-      fetch('http://192.168.2.127:3500/api/payment/deposit', {
+      fetch(process.env.BACKEND_URL + '/api/payment/deposit', {
         method: 'POST',
         mode: 'cors',
         body: data,
@@ -199,7 +199,7 @@ export default {
       var messagedata = {message: "Making payment, please wait...", timeout: 1500}
       snackbarContainer.MaterialSnackbar.showSnackbar(messagedata)
 
-      fetch('http://192.168.2.127:3500/api/payment/additional', {
+      fetch(process.env.BACKEND_URL + '/api/payment/additional', {
         method: 'POST',
         mode: 'cors',
         body: data,
@@ -229,7 +229,7 @@ export default {
       var messagedata = {message: "Making payment, please wait...", timeout: 1500}
       snackbarContainer.MaterialSnackbar.showSnackbar(messagedata)
 
-      fetch('http://192.168.2.127:3500/api/payment/mortgage', {
+      fetch(process.env.BACKEND_URL + '/api/payment/mortgage', {
         method: 'POST',
         mode: 'cors',
         body: data,
@@ -256,7 +256,7 @@ export default {
       var messagedata = {message: "Making payout, please wait...", timeout: 1500}
       snackbarContainer.MaterialSnackbar.showSnackbar(messagedata)
 
-      fetch('http://192.168.2.127:3500/api/payment/escrowpayout', {
+      fetch(process.env.BACKEND_URL + '/api/payment/escrowpayout', {
         method: 'POST',
         mode: 'cors',
         body: data,
@@ -277,7 +277,7 @@ export default {
       var messagedata = {message: "Completing, please wait...", timeout: 1500}
       snackbarContainer.MaterialSnackbar.showSnackbar(messagedata)
 
-      fetch('http://192.168.2.127:3500/api/property/transfer', {
+      fetch(process.env.BACKEND_URL + '/api/property/transfer', {
         method: 'POST',
         mode: 'cors',
         body: data,
@@ -301,7 +301,7 @@ export default {
       var messagedata = {message: "Signing, please wait...", timeout: 1500}
       snackbarContainer.MaterialSnackbar.showSnackbar(messagedata)
 
-      fetch('http://192.168.2.127:3500/api/transaction', {
+      fetch(process.env.BACKEND_URL + '/api/transaction', {
         method: 'POST',
         mode: 'cors',
         body: data,
