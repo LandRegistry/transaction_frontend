@@ -165,9 +165,9 @@ export default {
 	      "propertyExchangeId": this.exchangeid,
         "user": this.buyerid
       })
-      var snackbarContainer = document.querySelector('#demo-toast-example')
-      var messagedata = {message: "Making payment, please wait...", timeout: 1500}
-      snackbarContainer.MaterialSnackbar.showSnackbar(messagedata)
+      // var snackbarContainer = document.querySelector('#demo-toast-example')
+      // var messagedata = {message: "Making payment, please wait...", timeout: 1500}
+      // snackbarContainer.MaterialSnackbar.showSnackbar(messagedata)
 
       fetch(process.env.BACKEND_URL + '/api/payment/deposit', {
         method: 'POST',

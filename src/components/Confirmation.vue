@@ -14,12 +14,12 @@
     <!-- Property Details -->
     <div class="details">
       <h4>What is this?</h4>
-      <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi accumsan, massa viverra fringilla pharetra, magna sapien faucibus dui, hendrerit molestie</p>
+      <p>Buyer Contract Details</p>
       <hr>
       <h4>Property Address</h4>
-      <h5 v-if="contract.property">{{ extractPostcode(contract.property.address) }}</h5>
+      <h6 v-if="contract.property">{{ extractPostcode(contract.property.address) }}</h6>
       <p>
-        <div v-if="contract.property" style="float: right;margin-top: -50px;padding-right: 10px;">
+        <div v-if="contract.property" >
           {{ extractAddressLine(0, contract.property.address) }}
           <br> {{ extractAddressLine(1, contract.property.address) }}
         </div>
@@ -27,18 +27,20 @@
           <hr>
           <!-- Handover -->
           <h4>Handover Date</h4>
-          <p style="width: 200px;">ipsum quia dolor sit amet, consectetur, adipisci velit</p>
-          <h5>{{ formattedCompletionDate }}</h5>
+          <!-- <p style="width: 200px;">ipsum quia dolor sit amet, consectetur, adipisci velit</p> -->
+          <h6>{{ formattedCompletionDate }}</h6>
           <hr>
           <!-- Contract -->
           <h4>Contract Details</h4>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-          <a href="#">Read Terms and Conditions</a>
+          <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p> -->
+          <a href="#/sign">Read Terms and Conditions</a>
           <br>
           <br>
-          <p  style="width: 200px;">Morbi accumsan, massa viverra fringilla pharetra, magna sapien faucibus dui, hendrerit molestie massa nulla ac urna. </p>
-          <div style="float: right;margin-top: -91px;padding-right: 10px;width: 122px;">
-          <a href="#">Please read in order to approve</a>
+          <!-- <p  style="width: 200px;">Morbi accumsan, massa viverra fringilla pharetra, magna sapien faucibus dui, hendrerit molestie massa nulla ac urna. </p> -->
+          <!-- <div style="float: right;margin-top: -91px;padding-right: 10px;width: 122px;"> -->
+            <div>
+          <button v-on:click="sign" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Approve</button>
+          <br>
           </div>
     </div>
   </div>
@@ -47,12 +49,14 @@
 <script>
 import moment from 'moment';
 export default {
+  props: ['contractId'],
   data() {
     return {
       contract: {},
       property: {},
       buyer: {},    // the single buyer
       sellers: [],   // the sellers
+      propId:this.$route.params.contractId.substring(8)
     }
   },
   async created() {
@@ -60,7 +64,7 @@ export default {
     // Get contract
     const contractId = this.$route.params.contractId;
     this.contract = await this.loadContract(contractId);
-
+    this.propId=contractId.substring(8);
     // Extract property details
     this.property = this.contract.property;
 
@@ -82,6 +86,9 @@ export default {
     },
   },
   methods: {
+    sign: function() {
+      this.$router.push('/signfail/'+this.propId);
+    },
     extractId: function(blockchainId) {
       const id = blockchainId.lastIndexOf('#');
       return id == -1 ? blockchainId : blockchainId.substr(id + 1);
@@ -134,7 +141,7 @@ export default {
       return await response.json();
     },
     dismiss: function(date) {
-      this.$router.push('sign');
+      this.$router.push('sign/'+this.propId);
     }
   }
 }
@@ -157,12 +164,14 @@ export default {
 }
 
 .details {
-  color: black;
+  color: white;
   text-align: left;
-  position: absolute;
+  position: relative;
   left: 0;
-  padding-left: 15px;
+  padding-left: 25px;
   padding-top: 50px;
+  background-color: #0C1D3B;
+  height:600px;
 }
 
 .demo-ribbon{

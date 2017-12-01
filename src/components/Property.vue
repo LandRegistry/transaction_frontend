@@ -13,23 +13,25 @@
     <div class="details">
       <div id="locationMap" v-on:click="displayMap"></div>
       <div style="margin-top: 250px;">
-      <h4>Property Address</h4>
-      <h5 v-if="contract.property">{{ extractPostcode(contract.property.address) }}</h5>
+      <h4>Property Address</h4><h5>{{address}}</h5>
+      <h4>Owner</h4><h5>{{owners}}</h5>
+      <!-- <h5 v-if="contract.property">{{ extractPostcode(contract.property.address) }}</h5>
       <div v-if="contract.property">
         {{ extractAddressLine(0, contract.property.address) }}
-        <br> {{ extractAddressLine(1, contract.property.address) }}
+        <br> {{ extractAddressLine(1, contract.property.address) }} -->
         <!-- <br> {{ extractAddressLine(3, contract.property.address) }} -->
       </div>
-
+<hr>
       <h4>Handover Date</h4>
 
-      <p>Ipsum quia dolor sit amet, consectetur, adipisci velit.</p>
+      <!-- <p>Ipsum quia dolor sit amet, consectetur, adipisci velit.</p> -->
 
-      <h5>{{ formattedCompletionDate }}</h5>
+      <h6>{{ formattedCompletionDate }}</h6>
 
+<hr>
       <h4>Important Information</h4>
-
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus justo diam, tristique at nibh et, porttitor placerat ligula. Pellentesque sagittis enim sed laoreet sagittis. Suspendisse ut auctor arcu. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Ut viverra mi ut imperdiet pellentesque. Sed tincidunt fringilla sapien, vitae sodales erat ultrices quis. Donec sit amet lacus at nisl placerat tempus a ut erat. Sed in gravida leo. Phasellus rutrum, nibh sit amet scelerisque tincidunt, dui nisl gravida mi, efficitur viverra nisi mauris et metus. Duis et eros vestibulum.
+<hr>
+      <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus justo diam, tristique at nibh et, porttitor placerat ligula. Pellentesque sagittis enim sed laoreet sagittis. Suspendisse ut auctor arcu. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Ut viverra mi ut imperdiet pellentesque. Sed tincidunt fringilla sapien, vitae sodales erat ultrices quis. Donec sit amet lacus at nisl placerat tempus a ut erat. Sed in gravida leo. Phasellus rutrum, nibh sit amet scelerisque tincidunt, dui nisl gravida mi, efficitur viverra nisi mauris et metus. Duis et eros vestibulum. -->
       </p>
     </div>
     </div>
@@ -45,10 +47,46 @@
         contract: {},
         geolocation: {},
         map: {},
+        owners:null,
+        address:null
       }
     },
     async created() {
+       var data = JSON.stringify({
+          'type': 'Property',
+          'id': this.$route.params.contractId.substring(8),   // supplied asset identifier
+          'user': 'admin'
+        });
 
+        await fetch(process.env.BACKEND_URL + '/api/get/assetOwner', {
+          method: 'POST',
+          mode: 'cors',
+          body: data,
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        }).then(res => res.text())
+        .then(function(data){
+        this.owners=data;
+      }.bind(this));
+
+  var data = JSON.stringify({
+          'type': 'Property',
+          'id': this.$route.params.contractId.substring(8),   // supplied asset identifier
+          'user': 'admin'
+        });
+
+        await fetch(process.env.BACKEND_URL + '/api/get/assetAddress', {
+          method: 'POST',
+          mode: 'cors',
+          body: data,
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        }).then(res => res.text())
+        .then(function(data){
+        this.address=data;
+      }.bind(this));
       // Get contract
       const contractId = this.$route.params.contractId;
       this.contract = await this.loadContract(contractId);
@@ -182,10 +220,11 @@
   background-color: #0C1D3B;
   color: white;
   text-align: left;
-  position: absolute;
+  position: relative;
   left: 0;
   padding-left: 25px;
-  height: 900px;
+  padding-top: 50px;
+  height:700px;
 }
 
   .headerText {
