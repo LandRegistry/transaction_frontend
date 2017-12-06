@@ -1,7 +1,9 @@
 ---
 applications:
  - name: TransactionUI
+   buildpack: staticfile_buildpack
    instances: 1
    domain: eu-gb.mybluemix.net
    host: hmlr-ds-transactionui
-   memory: 96M
+   memory: 32M
+   path: ./dist
