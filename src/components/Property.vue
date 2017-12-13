@@ -22,7 +22,7 @@
         <!-- <br> {{ extractAddressLine(3, contract.property.address) }} -->
       </div>
 <hr>
-      <h4>Handover Date</h4>
+      <h4>Completion Date</h4>
 
       <!-- <p>Ipsum quia dolor sit amet, consectetur, adipisci velit.</p> -->
 

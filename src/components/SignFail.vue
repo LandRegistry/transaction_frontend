@@ -23,8 +23,9 @@
                     <i class="material-icons">error</i>
                   </div>
                 </div> -->
-      <p>A copy of this contract has now been sent to the relevant party. Please await their approval.</p>
-      <button v-on:click="pay" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Exchange Money</button>
+      <p>This contract has been signed by the seller, by signing this contract you are agreeing to the terms of the contract.</p>
+      <p>Once you have signed the contract your deposit will be paid and you will be committed to the purchase of the property.</p>
+      <button v-on:click="pay" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Pay Deposit</button>
     </div>
 
   </div>

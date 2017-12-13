@@ -25,21 +25,21 @@
         </div>
         <p>
           <hr>
-          <!-- Handover -->
-          <h4>Handover Date</h4>
+          <!-- Completion -->
+          <h4>Completion Date</h4>
           <!-- <p style="width: 200px;">ipsum quia dolor sit amet, consectetur, adipisci velit</p> -->
           <h6>{{ formattedCompletionDate }}</h6>
           <hr>
           <!-- Contract -->
           <h4>Contract Details</h4>
           <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p> -->
-          <a href="#/sign">Read Terms and Conditions</a>
+          <a href="#/sign">Read Details of Contract</a>
           <br>
           <br>
           <!-- <p  style="width: 200px;">Morbi accumsan, massa viverra fringilla pharetra, magna sapien faucibus dui, hendrerit molestie massa nulla ac urna. </p> -->
           <!-- <div style="float: right;margin-top: -91px;padding-right: 10px;width: 122px;"> -->
             <div>
-          <button v-on:click="sign" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Approve</button>
+          <button v-on:click="sign" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Agree to Contract</button>
           <br>
           </div>
     </div>

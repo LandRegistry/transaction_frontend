@@ -12,7 +12,7 @@
       <div class="demo-list-action mdl-list">
         <div class="mdl-list__item">
           <span class="mdl-list__item-primary-content">
-            <span>Deposit</span>
+            <span>Deposit paid by buyer</span>
           </span>
           <a class="mdl-list__item-secondary-action" href="#">
             <i v-if="deposit" class="material-icons green">done</i>
@@ -21,7 +21,7 @@
         </div>
         <div class="mdl-list__item">
           <span class="mdl-list__item-primary-content">
-            <span>Mortgage funds</span>
+            <span>Draw down mortgage</span>
           </span>
           <a class="mdl-list__item-secondary-action" href="#">
             <i v-if="mortgage" class="material-icons green">done</i>
@@ -30,29 +30,40 @@
         </div>
         <div class="mdl-list__item">
           <span class="mdl-list__item-primary-content">
-            <span>Additional payment</span>
+            <span>Transfer funds to seller</span>
           </span>
           <span class="mdl-list__item-secondary-content">
             <a class="mdl-list__item-secondary-action" href="#">
-              <i v-if="additional" class="material-icons green">done</i>
+              <i v-if="transfer" class="material-icons green">done</i>
               <i v-else class="material-icons red">clear</i>
             </a>
           </span>
         </div>
         <div class="mdl-list__item">
           <span class="mdl-list__item-primary-content">
-            <span>Escrow funds released</span>
+            <span>Stamp Duty Land Tax paid</span>
           </span>
           <span class="mdl-list__item-secondary-content">
             <a class="mdl-list__item-secondary-action" href="#">
-              <i v-if="escrow" class="material-icons green">done</i>
+              <i v-if="sdlt" class="material-icons green">done</i>
+              <i v-else class="material-icons red">clear</i>
+            </a>
+          </span>
+        </div>
+        <div class="mdl-list__item">
+          <span class="mdl-list__item-primary-content">
+            <span>Register Updated</span>
+          </span>
+          <span class="mdl-list__item-secondary-content">
+            <a class="mdl-list__item-secondary-action" href="#">
+              <i v-if="register" class="material-icons green">done</i>
               <i v-else class="material-icons red">clear</i>
             </a>
           </span>
         </div>
       </div>
       <p>The above funds have been paid or are waiting to be paid by others.</p>
-      <button v-on:click="makepay" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Make Payment</button>
+      <button v-on:click="makepay" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Completion</button>
       <pulse-loader :loading="loading"></pulse-loader>
     </div>
 
@@ -67,11 +78,14 @@ export default {
   },
   data() {
     return {
-      deposit: false,
+      deposit: true,
       mortgage: false,
       additional: false,
       escrow: false,
-       propertyexchanges: [],
+      transfer: false,
+      sdlt: false,
+      register: false,
+      propertyexchanges: [],
       exchangeid: '',
       saleprice: 180000,
       mortgageprice: 162000,
@@ -83,7 +97,9 @@ export default {
     }
   },
   computed: {
-
+    formattedCompletionDate: function() {
+      return moment(this.contract.completionDate).format('DD MMMM YYYY');
+    },
   },
   methods: {
     makepay: function() {
@@ -238,10 +254,13 @@ export default {
       }
     }).then(res => res.json())
       .then(result => {
-        this.deposit = result.hasOwnProperty("depositReceipt")
+        // this.deposit = result.hasOwnProperty("depositReceipt")
         this.mortgage = result.hasOwnProperty("mortgageReceipt")
         this.additional = result.hasOwnProperty("additionalFundsReceipt")
         this.escrow = result.hasOwnProperty("escrowPayoutReceipt")
+        this.transfer = result.hasOwnProperty("mortgageReceipt")
+        this.sdlt = result.hasOwnProperty("mortgageReceipt")
+        this.register = result.hasOwnProperty("mortgageReceipt")
       });
       // console.log(result);
   },
