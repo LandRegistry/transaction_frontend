@@ -66,9 +66,9 @@ export default {
       }.bind(this));
 
      },
-    pay: function() {
-      this.$router.push('/payment/propertyExchange'+this.$route.params.propId);
-    },
+    // pay: function() {
+    //   this.$router.push('/payment/propertyExchange'+this.$route.params.propId);
+    // },
     sign: async function() {
 
       // Redirect if we are successful
