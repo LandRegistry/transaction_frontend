@@ -26,12 +26,21 @@ export default new Router({
     },
     {
       path: '/contract',
-      redirect: '/contract/100000002/100000008'
+      redirect: '/contract/100000002/100000008/:propertyId'
     },
     {
-      path: '/contract/:sellerId/:buyerId',
+      path: '/sign',
+      redirect: '/sign/:propId'
+    },
+    {
+      path: '/signfail',
+      redirect: '/signfail/:propId'
+    },
+    {
+      path: '/contract/:sellerId/:buyerId/:propId',
       name: 'Contract',
-      component: Contract
+      component: Contract,
+      props:true
     },
     {
       path: '/confirm/:contractId',
@@ -44,7 +53,7 @@ export default new Router({
       component: Final
     },
     {
-      path: '/sign',
+      path: '/sign/:propId',
       name: 'Sign',
       component: Sign
     },
@@ -54,7 +63,7 @@ export default new Router({
       component: Payment
     },
     {
-      path: '/signfail',
+      path: '/signfail/:propId',
       name: 'SignFail',
       component: SignFail
     },

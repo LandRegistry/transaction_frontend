@@ -4,44 +4,74 @@
       <div class="pageTitle">Create Contract</div>
       <div class="subTitle">STEP 2</div>
     </div>
-    <div class="mdl-card mdl-shadow--2dp" style="top:33px;">
+    <!-- <div class="mdl-card mdl-shadow--2dp" style="top:33px;">
       <div class="mdl-card__title">
         <h2 class="mdl-card__title-text">What is this?</h2>
       </div>
       <div class="address-details mdl-card__supporting-text">
-        DummyText Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.
+         Seller Contract Details
       </div>
-    </div>
+    </div> -->
+    <div class="details">
 
-    <div class="mdl-card mdl-shadow--2dp">
+<h5>What is this?</h5>
+<h6>Seller Contract Details</h6>
+<hr>
+<h5>Address</h5>
+<address class="address">
+          <h6>{{address.firstLine}} <br> {{address.city}}</h6>
+        </address>
+<div class="findAddress"> 
+  <span>Price</span>
+            <input v-model.number="price" class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="price"></div>
+            
+<hr>
+<h5>Seller</h5>
+<h6 class="participant">{{seller.title}} {{seller.firstName}} {{seller.lastName}} </h6>
+<hr>
+<h5>Buyer</h5>
+<h6 class="participant">{{buyer.title}} {{buyer.firstName}} {{buyer.lastName}}</h6>
+<hr>
+<h5>Fix a Date</h5>
+<datepicker v-model="dateOfCompletion" name="dateOfCompletion"></datepicker>
+<hr>
+<h5>Additional Terms</h5>
+<textarea v-model="terms"></textarea>
+<hr>
+<h5>Automated Contract</h5>
+<button v-on:click="save" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Create</button>
+<pulse-loader :loading="loading"></pulse-loader>
+</div>
+    <!-- <div class="mdl-card mdl-shadow--2dp">
       <div class="mdl-card__title">
-        <h2 class="mdl-card__title-text">Find My Address</h2>
-        <i v-if="propertyId" class="material-icons">done</i>
-      </div>
+        <h2 class="mdl-card__title-text">Address</h2> -->
+        <!-- <i v-if="propertyId" class="material-icons">done</i> -->
+      <!-- </div>
       <div class="address-details mdl-card__supporting-text">
-        <div class="findAddress">
-
+        <div class="findAddress"> -->
+<!-- 
           <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            
             <input v-model="postcode" class="mdl-textfield__input" type="text" id="postcode">
             <label class="mdl-textfield__label" for="postcode">Postcode</label>
-          </div>
+          </div> -->
 
-          <button v-on:click="findProperty" class="findButton mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Find</button>
+          <!-- <button v-on:click="findProperty" class="findButton mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Find</button> -->
 
-          <div v-if="propertyId" class="mdl-textfield mdl-js-textfield">
+          <!-- <div class="mdl-textfield mdl-js-textfield">
             <span>Price</span>
             <input v-model.number="price" class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="price">
             <span class="mdl-textfield__error">Not a valid price!</span>
           </div>
 
         </div>
-        <address v-if="propertyId" class="address">
+        <address class="address">
           {{address.firstLine}} <br> {{address.city}}
         </address>
       </div>
-    </div>
+    </div> -->
 
-    <div class="mdl-card mdl-shadow--2dp">
+    <!-- <div class="mdl-card mdl-shadow--2dp">
       <div class="mdl-card__title">
         <h2 class="mdl-card__title-text">Seller</h2>
       </div>
@@ -64,9 +94,9 @@
         <h2 class="mdl-card__title-text">Fix a Date</h2>
         <i class="material-icons">done</i>
       </div>
-      <div class="mdl-card__supporting-text">
-        <p>DummyText Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
-        <datepicker v-model="dateOfCompletion" name="dateOfCompletion"></datepicker>
+      <div class="mdl-card__supporting-text"> -->
+        <!-- <p>DummyText Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p> -->
+        <!-- <datepicker v-model="dateOfCompletion" name="dateOfCompletion"></datepicker>
       </div>
     </div>
 
@@ -84,18 +114,18 @@
       <div class="mdl-card__title">
         <h2 class="mdl-card__title-text">Automated Contract</h2>
       </div>
-      <div class="mdl-card__supporting-text">
-        <p>
+      <div class="mdl-card__supporting-text"> -->
+        <!-- <p>
           DummyText Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
           <a href="#">Read Terms and Conditions</a> Aenean commodo ligula eget dolor. Aenean massa.
         </p>
         <p>
           DummyText Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. DummyText Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.
-        </p>
-        <button v-on:click="save" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Create</button>
+        </p> -->
+        <!-- <button v-on:click="save" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Create</button>
       </div>
-      <pulse-loader :loading="loading"></pulse-loader>
-    </div>
+      <pulse-loader :loading="loading"></pulse-loader> -->
+    <!-- </div> -->
   </div>
 </template>
 
@@ -108,7 +138,7 @@ export default {
     Datepicker,
     PulseLoader
   },
-  props: ['buyerId', 'sellerId'],
+  props: ['buyerId', 'sellerId', 'propId'],
   created() {
     var buyerRequest = JSON.stringify({
       type: "Buyer",
@@ -155,27 +185,34 @@ export default {
       buyer: {},
       seller: {},
       postcode: '',
-      propertyId: null,
+      propertyId: this.$route.params.propId,
       dateOfCompletion: new Date(),
-      price: 0,
+      price: 180000,
       terms: '',
-      loading: false
+      loading: false,
+      address: {
+         firstLine: '21 Cotham Lawn Road',
+        city: 'Bristol'
+      }
+      
     }
+   
   },
   methods: {
     findProperty: function() {
       this.address = {
-        firstLine: '9 Cotham Lawn Road',
+        firstLine: '21 Cotham Lawn Road',
         city: 'Bristol'
       }
-      this.propertyId = '79984';
-      this.price = 500000
+      this.propertyId = this.$route.params.propId;
+      console.log("propertyId",this.propId);
+      this.price = 180000
     },
     save: function() {
       this.loading = true;
       const body = {
-        contractID: 'contract1',
-        propertyExchangeID: 'propertyExchange1',
+        contractID: 'contract'.concat(this.$route.params.propId),
+        propertyExchangeID: 'propertyExchange'.concat(this.$route.params.propId),
         user: this.seller.id,
         contractAttributes: {
           completionDate: this.dateOfCompletion,
@@ -215,7 +252,7 @@ export default {
       }).then(res => {
         if (res.status === 200) {
           this.loading = false;
-          this.$router.push('/signfail')
+          this.$router.push('/sign/'+this.$route.params.propId)
         }
       });
     }
@@ -235,6 +272,11 @@ function uuidv4() {
 textarea {
   width: 100%;
   height: 100px;
+}
+.text{
+  width:100%;
+  text-align:left;
+  background-color: white;
 }
 
 .mdl-card {
@@ -276,6 +318,16 @@ address {
   font-size: 17px;
   padding-bottom: 20px;
   margin-left: -265px;
+}
+.details {
+  color: black;
+  text-align: left;
+  position: relative;
+  left: 0;
+  padding-left: 25px;
+  padding-top: 50px;
+  background-color: white;
+  height:950px;
 }
 </style>
 <style>

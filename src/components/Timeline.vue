@@ -21,9 +21,9 @@
                         </button>
                     </div>
 
-                    <div class="mdl-card__supporting-text">
+                    <!-- <div class="mdl-card__supporting-text">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sagittis pellentesque lacus eleifend lacinia...
-                    </div>
+                    </div> -->
 
                 </div>
             </div>
@@ -43,9 +43,9 @@
                         </button>
                     </div>
 
-                    <div class="mdl-card__supporting-text">
+                    <!-- <div class="mdl-card__supporting-text">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sagittis pellentesque lacus eleifend lacinia...
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </router-link>
@@ -64,9 +64,9 @@
                         </button>
                     </div>
 
-                    <div class="mdl-card__supporting-text">
+                    <!-- <div class="mdl-card__supporting-text">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sagittis pellentesque lacus eleifend lacinia...
-                    </div>
+                    </div> -->
 
                 </div>
             </div>
@@ -87,9 +87,9 @@
                         </button>
                     </div>
 
-                    <div class="mdl-card__supporting-text">
+                    <!-- <div class="mdl-card__supporting-text">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sagittis pellentesque lacus eleifend lacinia...
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </router-link>
@@ -108,9 +108,9 @@
                         </button>
                     </div>
 
-                    <div class="mdl-card__supporting-text">
+                    <!-- <div class="mdl-card__supporting-text">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sagittis pellentesque lacus eleifend lacinia...
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </router-link>

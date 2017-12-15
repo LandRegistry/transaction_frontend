@@ -5,7 +5,7 @@
     <div class="details">
       <h4>Relax, we'll sort out all the money.</h4>
 
-      <p>ipsum quia dolor sit amet, consectetur, adipisci velit</p>
+      <!-- <p>ipsum quia dolor sit amet, consectetur, adipisci velit</p> -->
 
       <i class="material-icons md-200 red">credit_card</i>
 
@@ -52,32 +52,181 @@
         </div>
       </div>
       <p>The above funds have been paid or are waiting to be paid by others.</p>
+      <button v-on:click="makepay" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Make Payment</button>
+      <pulse-loader :loading="loading"></pulse-loader>
     </div>
 
   </div>
 </template>
 
 <script>
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 export default {
+  components: {
+    PulseLoader
+  },
   data() {
     return {
       deposit: false,
       mortgage: false,
       additional: false,
-      escrow: false
+      escrow: false,
+       propertyexchanges: [],
+      exchangeid: '',
+      saleprice: 180000,
+      mortgageprice: 162000,
+      depositprice: 18000,
+      additionalprice: 1000,
+      hmrc:1000,
+      buyerid:100000008,
+      loading: false
     }
   },
   computed: {
 
   },
   methods: {
+    makepay: function() {
+      this.loading = true;
+      var data = JSON.stringify({
+        "receiptId": Math.floor(Math.random() * 1000000).toString(),
+	      "attributes": {
+          "buyer": {
+            "namespace": "org.hmlr.model",
+            "type": "Buyer",
+            "id": this.buyerid
+          },
+          "ammountInGBP": this.depositprice
+        },
+	      "propertyExchangeId": this.$route.params.exchangeid,
+        "user": this.buyerid
+      })
+      console.log(data);
+    const response =fetch(process.env.BACKEND_URL + '/api/payment/deposit', {
+        method: 'POST',
+        mode: 'cors',
+        body: data,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }).then(
+        function(data){
+          console.log(data);
+          console.log(data.status);
+          if(data.status==200){
+            console.log("Enter")
+          this.callmortgage();}
+        }.bind(this));
+       
+
+    },
+    callmortgage: function(){
+      console.log()
+       var data = JSON.stringify({
+        "receiptId": Math.floor(Math.random() * 1000000).toString(),
+	      "attributes": {
+          "lender": {
+            "namespace": "org.hmlr.model",
+            "type": "Lender",
+            "id": "santander"
+          },
+          "ammountInGBP": this.mortgageprice
+        },
+	      "propertyExchangeId": this.$route.params.exchangeid,
+        "user": "santander"
+      })
+      console.log(data);
+      const response=fetch(process.env.BACKEND_URL + '/api/payment/mortgage', {
+        method: 'POST',
+        mode: 'cors',
+        body: data,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }).then(function(data){
+        console.log(data);
+        this.calladditional();
+      }.bind(this));
+    },
+    calladditional: function(){
+      var data = JSON.stringify({
+        "receiptId": Math.floor(Math.random() * 1000000).toString(),
+	      "attributes": {
+          "buyer": {
+            "namespace": "org.hmlr.model",
+            "type": "Buyer",
+            "id": this.buyerid
+          },
+          "ammountInGBP": this.additionalprice
+        },
+	      "propertyExchangeId": this.$route.params.exchangeid,
+        "user": this.buyerid
+      })
+      console.log(data);
+       const response=fetch(process.env.BACKEND_URL + '/api/payment/additional', {
+        method: 'POST',
+        mode: 'cors',
+        body: data,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }).then(function(data){
+        console.log(data);
+        this.callescrow();
+      }.bind(this));
+    },
+    callescrow: function(){
+      var data = JSON.stringify({
+        "receiptId": Math.floor(Math.random() * 1000000).toString(),
+	      "attributes": {
+        "sellerAmmountInGBP": 1,
+        "sellerLenderAmmountInGBP": 1,
+        "sellerHMRCAmmountInGBP": this.hmrc
+        },
+        "propertyExchangeId": this.$route.params.exchangeid,
+        "user": "escrow"
+      })
+      console.log(data);
+      const response=fetch(process.env.BACKEND_URL + '/api/payment/escrowpayout', {
+        method: 'POST',
+        mode: 'cors',
+        body: data,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }).then(function(data){
+        console.log(data);
+        this.changestatus();
+      }.bind(this));
+    },
+    changestatus: function(){
+      var data = JSON.stringify({
+          propertyExchangeId:this.$route.params.exchangeid,
+          propertyExchangeStatus:"PAYMENT_COMPLETED",
+          user:"admin"
+         });
+
+      const response = fetch(process.env.BACKEND_URL + '/api/propertyExchange/updateStatus', {
+        method: 'POST',
+        mode: 'cors',
+        body: data,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }).then(function(data){
+        console.log(data);
+        this.loading = false;
+        // this.$router.push('/payment/'+this.$route.params.exchangeid);
+        location.reload();
+      }.bind(this));
+    }
 
   },
   created: function () {
     var data = JSON.stringify({
-        "type": "PropertyExchange",
-        "id": this.$route.params.exchangeid,
-        "user": "hmlr"
+        type: "PropertyExchange",
+        id: this.$route.params.exchangeid,
+        user: "hmlr"
     })
 
     fetch(process.env.BACKEND_URL + '/api/get/asset', {
@@ -94,8 +243,10 @@ export default {
         this.additional = result.hasOwnProperty("additionalFundsReceipt")
         this.escrow = result.hasOwnProperty("escrowPayoutReceipt")
       });
+      // console.log(result);
   },
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -132,7 +283,7 @@ export default {
   background-color: #0C1D3B;
   color: white;
   text-align: center;
-  position: absolute;
+  position: relative;
   left: 0;
   /* padding-left: 25px; */
   height: 700px;

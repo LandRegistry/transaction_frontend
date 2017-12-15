@@ -6,7 +6,7 @@
 </div>
     <div class="details">
       <h4>Use your touch ID to verify the contract</h4>
-      <p>ipsum quia dolor sit amet, consectetur, adipisci velit</p>
+      <!-- <p>ipsum quia dolor sit amet, consectetur, adipisci velit</p> -->
 
       <button v-on:click="sign" class="mdl-button mdl-js-button mdl-button--icon" style="width: 300px; height: 300px; min-width: initial;">
         <i class="material-icons md-200" v-bind:class="{ success: isSuccess }">fingerprint</i>
@@ -24,6 +24,7 @@
                   </div>
                 </div> -->
       <p>A copy of this contract has now been sent to the relevant party. Please await their approval.</p>
+      <button v-on:click="pay" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Exchange Money</button>
     </div>
 
   </div>
@@ -31,25 +32,54 @@
 
 <script>
 export default {
+  props: ['propId'],
   data() {
     return {
       isSuccess: false
     }
   },
+  created () {
+    this.fetchData()
+  },
   computed: {
 
   },
   methods: {
+     fetchData () {
+       this.isSuccess=false;
+      var data = JSON.stringify({
+        type:"PropertyExchange",
+      id:"propertyExchange".concat(this.data2),
+      user:"admin"	
+
+  });
+  const response = fetch(process.env.BACKEND_URL + '/api/get/asset', {
+        method: 'POST',
+        mode: 'cors',
+        body: data,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }).then(res => res.text())
+        .then(function(data){
+        var status=data.status;
+        console.log(status)
+      }.bind(this));
+
+     },
+    pay: function() {
+      this.$router.push('/payment/propertyExchange'+this.$route.params.propId);
+    },
     sign: async function() {
 
       // Redirect if we are successful
       if (this.isSuccess) {
-        this.$router.push('/confirm/contract1');
+        window.location.href = 'http://hmlr-ds-landingscreen.eu-gb.mybluemix.net/#/Landing'
       }
 
       // extract from passed info store?
       var userId = '100000002';
-      var contractId = 'contract1';
+      var contractId = 'contract'+this.$route.params.propId;
 
       var data = JSON.stringify({
         'type': 'ApproveContract',
@@ -70,6 +100,20 @@ export default {
 
       if (response.ok) {
         this.isSuccess = true;
+         var data = JSON.stringify({
+          propertyExchangeId:"propertyExchange".concat(this.$route.params.propId),
+          propertyExchangeStatus:"CONTRACT_CREATED",
+          user:"admin"
+         });
+
+      const response = await fetch(process.env.BACKEND_URL + '/api/propertyExchange/updateStatus', {
+        method: 'POST',
+        mode: 'cors',
+        body: data,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
       }
     }
   }
@@ -110,9 +154,9 @@ export default {
   background-color: #0C1D3B;
   color: white;
   text-align: center;
-  position: absolute;
+  position: relative;
   left: 0;
-  /* padding-left: 25px; */
+   padding-top: 25px;
   height: 600px;
 }
 
