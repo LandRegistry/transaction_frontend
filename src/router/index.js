@@ -92,5 +92,8 @@ export default new Router({
       name: 'Timeline',
       component: Timeline
     }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    return { x: 0, y: 0 }
+  }
 })

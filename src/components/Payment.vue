@@ -1,7 +1,7 @@
 <template>
   <div style="margin-top: 260px;">
-    <div class="pageTitle">Payment</div>
-    <div class="subTitle">STEP 4</div>
+    <div class="pageTitle"></div>
+    <div class="subTitle"></div>
     <div class="details">
       <h4>Relax, we'll sort out all the money.</h4>
 
@@ -63,8 +63,13 @@
         </div>
       </div>
       <p>The above funds have been paid or are waiting to be paid by others.</p>
-      <button v-on:click="callmortgage" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Completion</button>
-      <pulse-loader :loading="loading"></pulse-loader>
+      <button v-if="!register && !loading" v-on:click="callmortgage" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Completion</button>
+      <p v-if="loading">
+        Please wait... <pulse-loader :loading="loading"></pulse-loader>
+      </p>
+      <p v-if="register">
+        Congratulations - you now own the property!
+      </p>
     </div>
 
   </div>
@@ -80,7 +85,7 @@ export default {
   data() {
     return {
       contract: {},
-      deposit: false,
+      deposit: true, // it should be done by now so default true to avoid showing date for a few seconds
       mortgage: false,
       additional: false,
       escrow: false,
@@ -150,6 +155,7 @@ export default {
         }
       }).then(function(data){
         console.log(data);
+        this.mortgage = true;
         this.calladditional();
       }.bind(this));
     },
@@ -177,6 +183,7 @@ export default {
         }
       }).then(function(data){
         console.log(data);
+        this.transfer = true; // not strictly accurate but so ticks in right order...
         this.callescrow();
       }.bind(this));
     },
@@ -201,6 +208,7 @@ export default {
         }
       }).then(function(data){
         console.log(data);
+        this.sdlt = true;
         this.changestatusbuyer();
       }.bind(this));
     },
@@ -260,6 +268,7 @@ export default {
       }).then(function(data){
         console.log(data);
         this.loading = false;
+        this.register = true;
       }.bind(this));
     },
 
@@ -290,7 +299,7 @@ export default {
   
   created: async function () {
 
-    var interval = window.setInterval(this.updatestatus, 2000);
+    //var interval = window.setInterval(this.updatestatus, 2000);
     console.log("Exchange ID: " + this.$route.params.exchangeid);
     const contractId = this.$route.params.exchangeid.substring(16);
     console.log("Contract ID: " + contractId);

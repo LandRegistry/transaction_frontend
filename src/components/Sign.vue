@@ -1,40 +1,39 @@
 <template>
   <div style="margin-top: 240px;">
 <div class="headerText">
-    <div class="pageTitle">Create your own Contract</div>
-    <div class="subTitle">STEP 2</div>
+    <div class="pageTitle"></div>
+    <div class="subTitle"></div>
 </div>
     <div class="details">
-      <h4>Use your touch ID to verify the contract</h4>
+      <h4>Use your touch ID to sign the contract</h4>
       <!-- <p>ipsum quia dolor sit amet, consectetur, adipisci velit</p> -->
 
       <button v-on:click="sign" class="mdl-button mdl-js-button mdl-button--icon" style="width: 300px; height: 300px; min-width: initial;">
         <i class="material-icons md-200" v-bind:class="{ success: isSuccess }">fingerprint</i>
       </button>
-      <!-- <div v-if="signed" class="success">
-                  <div> Done </div>
-                  <div>
-                    <i class="material-icons">done</i>
-                  </div>
-                </div>
-                <div v-if="failed" class="fail">
-                  <div> Sign failed </div>
-                  <div>
-                    <i class="material-icons">error</i>
-                  </div>
-                </div> -->
-      <p>A copy of this contract has now been sent to the relevant party. Please await their approval.</p>
+
+      <p v-if="isSuccess">
+        A copy of this contract has now been sent to the relevant party. Please await their approval.
+      </p>
+      <p v-if="isSigning">
+        Please wait... <pulse-loader :loading="isSigning"></pulse-loader>
+      </p>
     </div>
 
   </div>
 </template>
 
 <script>
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 export default {
+  components: {
+    PulseLoader
+  },
   props: ['propId'],
   data() {
     return {
-      isSuccess: false
+      isSuccess: false,
+      isSigning: false
     }
   },
   created () {
@@ -76,6 +75,8 @@ export default {
         window.location.href = process.env.LANDING_SCREEN_URL + '/#/Landing'
       }
 
+      this.isSigning = true;
+
       // extract from passed info store?
       var userId = '100000002';
       var contractId = 'contract'+this.$route.params.propId;
@@ -98,21 +99,24 @@ export default {
       });
 
       if (response.ok) {
-        this.isSuccess = true;
          var data = JSON.stringify({
           propertyExchangeId:"propertyExchange".concat(this.$route.params.propId),
           propertyExchangeStatus:"CONTRACT_CREATED",
           user:"admin"
          });
 
-      const response = await fetch(process.env.BACKEND_URL + '/api/propertyExchange/updateStatus', {
-        method: 'POST',
-        mode: 'cors',
-        body: data,
-        headers: {
-          'Content-Type': 'application/json',
+        const response = await fetch(process.env.BACKEND_URL + '/api/propertyExchange/updateStatus', {
+          method: 'POST',
+          mode: 'cors',
+          body: data,
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+        if (response.ok) {
+          this.isSuccess = true;
+          this.isSigning = false;
         }
-      });
       }
     }
   }

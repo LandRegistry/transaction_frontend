@@ -1,8 +1,8 @@
 <template>
   <div style="margin-top: 240px;">
     <div class="headerText">
-      <div class="pageTitle">Create Contract</div>
-      <div class="subTitle">STEP 2</div>
+      <div class="pageTitle"></div>
+      <div class="subTitle"></div>
     </div>
     <!-- <div class="mdl-card mdl-shadow--2dp" style="top:33px;">
       <div class="mdl-card__title">
@@ -14,8 +14,8 @@
     </div> -->
     <div class="details">
 
-<h5>What is this?</h5>
-<h6>Seller Contract Details</h6>
+<h3>Create a contract</h3>
+<h4>Seller contract details</h4>
 <hr>
 <h5>Address</h5>
 <address class="address">
@@ -325,7 +325,8 @@ address {
   position: relative;
   left: 0;
   padding-left: 25px;
-  padding-top: 50px;
+  padding-right: 25px;
+  padding-top: 25px;
   background-color: white;
   height:950px;
 }

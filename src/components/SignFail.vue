@@ -1,11 +1,11 @@
 <template>
   <div style="margin-top: 280px;">
 <div class="headerText">
-    <div class="pageTitle">Create your own Contract</div>
-    <div class="subTitle">STEP 2</div>
+    <div class="pageTitle"></div>
+    <div class="subTitle"></div>
 </div>
     <div class="details">
-      <h4>Use your touch ID to verify the contract</h4>
+      <h4>Use your touch ID to sign the contract</h4>
       <!-- <p>ipsum quia dolor sit amet, consectetur, adipisci velit</p> -->
 
       <button v-on:click="sign" class="mdl-button mdl-js-button mdl-button--icon" style="width: 300px; height: 300px; min-width: initial;">
@@ -23,19 +23,32 @@
                     <i class="material-icons">error</i>
                   </div>
                 </div> -->
-      <p>This contract has been signed by the seller, by signing this contract you are agreeing to the terms of the contract.</p>
-      <p>Once you have signed the contract your deposit will be paid and you will be committed to the purchase of the property.</p>
+      <p v-if="isSigning">
+        Please wait... <pulse-loader :loading="isSigning"></pulse-loader>
+      </p>
+      <p v-if="isSuccess">
+        You have successfully signed the contract and paid the deposit!
+      </p>
+      <p v-else>
+        This contract has been signed by the seller, by signing this contract you are agreeing to the terms of the contract.
+        Once you have signed the contract your deposit will be paid and you will be committed to the purchase of the property.
+      </p>
     </div>
 
   </div>
 </template>
 
 <script>
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 export default {
+  components: {
+    PulseLoader
+  },
   props: ['propId'],
   data() {
     return {
       isSuccess: false,
+      isSigning: false,
       buyerid:100000008,
       depositprice: 18000
     }
@@ -78,6 +91,8 @@ export default {
       if (this.isSuccess) {
         window.location.href = process.env.LANDING_SCREEN_URL + '/#/Landing'
       }
+
+      this.isSigning = true;
 
       // extract from passed info store?
       var userId = '100000008';
@@ -148,6 +163,7 @@ export default {
           console.log(data.status);
           if(data.status==200){
             this.isSuccess = true;
+            this.isSigning = false;
             console.log("Enter");
             // this.callmortgage();
           }

@@ -7,16 +7,16 @@
   <div style="margin-top: 240px;">
 <div class="headerText">
     <!-- Header -->
-    <div class="pageTitle">Confirmation Details View</div>
-    <div class="subTitle">STEP 3</div>
+    <div class="pageTitle"></div>
+    <div class="subTitle"></div>
 </div>
 
     <!-- Property Details -->
     <div class="details">
-      <h4>What is this?</h4>
-      <p>Buyer Contract Details</p>
+      <h3>Review the contract</h3>
+      <h4>Buyer Contract Details</h4>
       <hr>
-      <h4>Property Address</h4>
+      <h5>Property Address</h5>
       <h6 v-if="contract.property">{{ extractPostcode(contract.property.address) }}</h6>
       <p>
         <div v-if="contract.property" >
@@ -26,24 +26,24 @@
         <p>
           <hr>
           <!-- Completion -->
-          <h4>Completion Date</h4>
+          <h5>Completion Date</h5>
           <!-- <p style="width: 200px;">ipsum quia dolor sit amet, consectetur, adipisci velit</p> -->
           <h6>{{ formattedCompletionDate }}</h6>
 
           <hr>
           <!-- Price -->
-          <h4> Price </h4>
+          <h5> Price </h5>
           <!-- <p style="width: 200px;">ipsum quia dolor sit amet, consectetur, adipisci velit</p> -->
           <h6>{{ this.contract.agreedSalePriceInGBP }}</h6>
           <hr>
 
           <!-- Additional Terms -->
-          <h4> Additional Terms </h4>
+          <h5> Additional Terms </h5>
           <!-- <p style="width: 200px;">ipsum quia dolor sit amet, consectetur, adipisci velit</p> -->
           <h6>{{ this.contract.contractTerms }}</h6>
           <hr>
           <!-- Contract -->
-          <h4>Contract Details</h4>
+          <h5>Contract Details</h5>
           <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p> -->
           <!-- <a href="#/sign">Read Details of Contract</a> -->
           <br>
@@ -181,7 +181,8 @@ export default {
   position: relative;
   left: 0;
   padding-left: 25px;
-  padding-top: 50px;
+  padding-top: 25px;
+  padding-right: 25px;
   background-color: #0C1D3B;
   height:600px;
 }
