@@ -16,7 +16,7 @@
           </span>
           <a class="mdl-list__item-secondary-action" href="#">
             <i v-if="deposit" class="material-icons green">done</i>
-              <i v-else class="material-icons red">clear</i>
+              <small v-else>{{ formattedCompletionDate }}</small>
           </a>
         </div>
         <div class="mdl-list__item">
@@ -25,7 +25,7 @@
           </span>
           <a class="mdl-list__item-secondary-action" href="#">
             <i v-if="mortgage" class="material-icons green">done</i>
-              <i v-else class="material-icons red">clear</i>
+              <small v-else>{{ formattedCompletionDate }}</small>
           </a>
         </div>
         <div class="mdl-list__item">
@@ -35,7 +35,7 @@
           <span class="mdl-list__item-secondary-content">
             <a class="mdl-list__item-secondary-action" href="#">
               <i v-if="transfer" class="material-icons green">done</i>
-              <i v-else class="material-icons red">clear</i>
+              <small v-else>{{ formattedCompletionDate }}</small>
             </a>
           </span>
         </div>
@@ -46,7 +46,7 @@
           <span class="mdl-list__item-secondary-content">
             <a class="mdl-list__item-secondary-action" href="#">
               <i v-if="sdlt" class="material-icons green">done</i>
-              <i v-else class="material-icons red">clear</i>
+              <small v-else>{{ formattedCompletionDate }}</small>
             </a>
           </span>
         </div>
@@ -57,7 +57,7 @@
           <span class="mdl-list__item-secondary-content">
             <a class="mdl-list__item-secondary-action" href="#">
               <i v-if="register" class="material-icons green">done</i>
-              <i v-else class="material-icons red">clear</i>
+              <small v-else>{{ formattedCompletionDate }}</small>
             </a>
           </span>
         </div>
@@ -72,12 +72,14 @@
 
 <script>
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
+import moment from 'moment';
 export default {
   components: {
     PulseLoader
   },
   data() {
     return {
+      contract: {},
       deposit: false,
       mortgage: false,
       additional: false,
@@ -94,14 +96,34 @@ export default {
       hmrc:1000,
       buyerid:100000008,
       loading: false
+
     }
   },
   computed: {
     formattedCompletionDate: function() {
-      // return moment(this.contract.completionDate).format('DD MMMM YYYY');
+      return moment(this.contract.completionDate).format('DD MMMM YYYY');
     },
   },
   methods: {
+    loadContract: async function(contractId) {
+
+      // Get specified contract
+      var data = JSON.stringify({
+        'type': 'Contract',
+        'id': contractId,   // supplied asset identifier
+        'user': 'hmlr'
+      });
+
+      var response = await fetch(process.env.BACKEND_URL + '/api/get/asset', {
+        method: 'POST',
+        mode: 'cors',
+        body: data,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      return await response.json();
+    },
     callmortgage: function(){
       this.loading = true;
       console.log()
@@ -237,7 +259,7 @@ export default {
         }
       }).then(function(data){
         console.log(data);
-        location.reload();
+        this.loading = false;
       }.bind(this));
     },
 
@@ -259,33 +281,20 @@ export default {
         .then(result => {
           this.deposit = result.hasOwnProperty("depositReceipt")
           this.mortgage = result.hasOwnProperty("mortgageReceipt")
-          this.transfer = result.hasOwnProperty("escrowPayoutReceipt")
-          this.sdlt = result.hasOwnProperty("additionalFundsReceipt")
-          this.register = result.hasOwnProperty("additionalFundsReceipt")
+          this.transfer = result.hasOwnProperty("additionalFundsReceipt")
+          this.sdlt = result.hasOwnProperty("escrowPayoutReceipt")
+          this.register = result.hasOwnProperty("escrowPayoutReceipt")
         });
     }
   },
   
-  created: function () {
+  created: async function () {
 
-    var interval = window.setInterval(this.updatestatus, 1000);
-
-    // fetch(process.env.BACKEND_URL + '/api/get/asset', {
-    //   method: 'POST',
-    //   mode: 'cors',
-    //   body: data,
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   }
-    // }).then(res => res.json())
-    //   .then(result => {
-    //     this.deposit = result.hasOwnProperty("depositReceipt")
-    //     this.mortgage = result.hasOwnProperty("mortgageReceipt")
-    //     this.transfer = result.hasOwnProperty("escrowPayoutReceipt")
-    //     this.sdlt = result.hasOwnProperty("additionalFundsReceipt")
-    //     this.register = result.hasOwnProperty("additionalFundsReceipt")
-    //   });
-      // console.log(result);
+    var interval = window.setInterval(this.updatestatus, 2000);
+    console.log("Exchange ID: " + this.$route.params.exchangeid);
+    const contractId = this.$route.params.exchangeid.substring(16);
+    console.log("Contract ID: " + contractId);
+    this.contract = await this.loadContract(contractId);
   },
 }
 
