@@ -32,7 +32,7 @@
 <h5>Buyer</h5>
 <h6 class="participant">{{buyer.title}} {{buyer.firstName}} {{buyer.lastName}}</h6>
 <hr>
-<h5>Fix a Date</h5>
+<h5>Completion Date</h5>
 <datepicker v-model="dateOfCompletion" name="dateOfCompletion"></datepicker>
 <hr>
 <h5>Additional Terms</h5>
@@ -91,7 +91,7 @@
 
     <div class="mdl-card mdl-shadow--2dp">
       <div class="mdl-card__title">
-        <h2 class="mdl-card__title-text">Fix a Date</h2>
+        <h2 class="mdl-card__title-text">Completion Date</h2>
         <i class="material-icons">done</i>
       </div>
       <div class="mdl-card__supporting-text"> -->
@@ -117,7 +117,7 @@
       <div class="mdl-card__supporting-text"> -->
         <!-- <p>
           DummyText Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-          <a href="#">Read Terms and Conditions</a> Aenean commodo ligula eget dolor. Aenean massa.
+          <a href="#">Read Details of Contract</a> Aenean commodo ligula eget dolor. Aenean massa.
         </p>
         <p>
           DummyText Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. DummyText Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.
@@ -270,7 +270,7 @@ function uuidv4() {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 textarea {
-  width: 100%;
+  width: 98%;
   height: 100px;
 }
 .text{

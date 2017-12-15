@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-top: 220px;">
+  <div style="margin-top: 260px;">
     <div class="pageTitle">Payment</div>
     <div class="subTitle">STEP 4</div>
     <div class="details">
@@ -12,47 +12,58 @@
       <div class="demo-list-action mdl-list">
         <div class="mdl-list__item">
           <span class="mdl-list__item-primary-content">
-            <span>Deposit</span>
+            <span>Deposit paid by buyer</span>
           </span>
           <a class="mdl-list__item-secondary-action" href="#">
             <i v-if="deposit" class="material-icons green">done</i>
-              <i v-else class="material-icons red">clear</i>
+              <small v-else>{{ formattedCompletionDate }}</small>
           </a>
         </div>
         <div class="mdl-list__item">
           <span class="mdl-list__item-primary-content">
-            <span>Mortgage funds</span>
+            <span>Draw down mortgage</span>
           </span>
           <a class="mdl-list__item-secondary-action" href="#">
             <i v-if="mortgage" class="material-icons green">done</i>
-              <i v-else class="material-icons red">clear</i>
+              <small v-else>{{ formattedCompletionDate }}</small>
           </a>
         </div>
         <div class="mdl-list__item">
           <span class="mdl-list__item-primary-content">
-            <span>Additional payment</span>
+            <span>Transfer funds to seller</span>
           </span>
           <span class="mdl-list__item-secondary-content">
             <a class="mdl-list__item-secondary-action" href="#">
-              <i v-if="additional" class="material-icons green">done</i>
-              <i v-else class="material-icons red">clear</i>
+              <i v-if="transfer" class="material-icons green">done</i>
+              <small v-else>{{ formattedCompletionDate }}</small>
             </a>
           </span>
         </div>
         <div class="mdl-list__item">
           <span class="mdl-list__item-primary-content">
-            <span>Escrow funds released</span>
+            <span>Stamp Duty Land Tax paid</span>
           </span>
           <span class="mdl-list__item-secondary-content">
             <a class="mdl-list__item-secondary-action" href="#">
-              <i v-if="escrow" class="material-icons green">done</i>
-              <i v-else class="material-icons red">clear</i>
+              <i v-if="sdlt" class="material-icons green">done</i>
+              <small v-else>{{ formattedCompletionDate }}</small>
+            </a>
+          </span>
+        </div>
+        <div class="mdl-list__item">
+          <span class="mdl-list__item-primary-content">
+            <span>Register Updated</span>
+          </span>
+          <span class="mdl-list__item-secondary-content">
+            <a class="mdl-list__item-secondary-action" href="#">
+              <i v-if="register" class="material-icons green">done</i>
+              <small v-else>{{ formattedCompletionDate }}</small>
             </a>
           </span>
         </div>
       </div>
       <p>The above funds have been paid or are waiting to be paid by others.</p>
-      <button v-on:click="makepay" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Make Payment</button>
+      <button v-on:click="callmortgage" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Completion</button>
       <pulse-loader :loading="loading"></pulse-loader>
     </div>
 
@@ -61,17 +72,22 @@
 
 <script>
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
+import moment from 'moment';
 export default {
   components: {
     PulseLoader
   },
   data() {
     return {
+      contract: {},
       deposit: false,
       mortgage: false,
       additional: false,
       escrow: false,
-       propertyexchanges: [],
+      transfer: false,
+      sdlt: false,
+      register: false,
+      propertyexchanges: [],
       exchangeid: '',
       saleprice: 180000,
       mortgageprice: 162000,
@@ -80,47 +96,36 @@ export default {
       hmrc:1000,
       buyerid:100000008,
       loading: false
+
     }
   },
   computed: {
-
+    formattedCompletionDate: function() {
+      return moment(this.contract.completionDate).format('DD MMMM YYYY');
+    },
   },
   methods: {
-    makepay: function() {
-      this.loading = true;
+    loadContract: async function(contractId) {
+
+      // Get specified contract
       var data = JSON.stringify({
-        "receiptId": Math.floor(Math.random() * 1000000).toString(),
-	      "attributes": {
-          "buyer": {
-            "namespace": "org.hmlr.model",
-            "type": "Buyer",
-            "id": this.buyerid
-          },
-          "ammountInGBP": this.depositprice
-        },
-	      "propertyExchangeId": this.$route.params.exchangeid,
-        "user": this.buyerid
-      })
-      console.log(data);
-    const response =fetch(process.env.BACKEND_URL + '/api/payment/deposit', {
+        'type': 'Contract',
+        'id': contractId,   // supplied asset identifier
+        'user': 'hmlr'
+      });
+
+      var response = await fetch(process.env.BACKEND_URL + '/api/get/asset', {
         method: 'POST',
         mode: 'cors',
         body: data,
         headers: {
           'Content-Type': 'application/json',
         }
-      }).then(
-        function(data){
-          console.log(data);
-          console.log(data.status);
-          if(data.status==200){
-            console.log("Enter")
-          this.callmortgage();}
-        }.bind(this));
-       
-
+      });
+      return await response.json();
     },
     callmortgage: function(){
+      this.loading = true;
       console.log()
        var data = JSON.stringify({
         "receiptId": Math.floor(Math.random() * 1000000).toString(),
@@ -196,13 +201,14 @@ export default {
         }
       }).then(function(data){
         console.log(data);
-        this.changestatus();
+        this.changestatusbuyer();
       }.bind(this));
     },
-    changestatus: function(){
+
+    changestatusbuyer: function(){
       var data = JSON.stringify({
           propertyExchangeId:this.$route.params.exchangeid,
-          propertyExchangeStatus:"PAYMENT_COMPLETED",
+          propertyExchangeStatus: "BUYER_MOVES_IN",
           user:"admin"
          });
 
@@ -215,35 +221,80 @@ export default {
         }
       }).then(function(data){
         console.log(data);
-        this.loading = false;
-        // this.$router.push('/payment/'+this.$route.params.exchangeid);
-        location.reload();
+        this.updateregistry();
       }.bind(this));
-    }
+    },
 
-  },
-  created: function () {
-    var data = JSON.stringify({
+    updateregistry: function(){
+      var data = JSON.stringify({
+        "propertyExchangeId":this.$route.params.exchangeid,
+        "user": "hmlr"
+      })
+      console.log(data);
+      const response=fetch(process.env.BACKEND_URL + '/api/property/transfer', {
+        method: 'POST',
+        mode: 'cors',
+        body: data,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }).then(function(data){
+        this.changestatuscompleted();
+        console.log(data);
+      }.bind(this));
+    },
+    changestatuscompleted: function(){
+      var data = JSON.stringify({
+          propertyExchangeId: this.$route.params.exchangeid,
+          propertyExchangeStatus: "REGISTRY_UPDATED",
+          user:"admin"
+          });
+
+      const response = fetch(process.env.BACKEND_URL + '/api/propertyExchange/updateStatus', {
+        method: 'POST',
+        mode: 'cors',
+        body: data,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }).then(function(data){
+        console.log(data);
+        this.loading = false;
+      }.bind(this));
+    },
+
+    updatestatus: function () {
+      var data = JSON.stringify({
         type: "PropertyExchange",
         id: this.$route.params.exchangeid,
         user: "hmlr"
     })
 
-    fetch(process.env.BACKEND_URL + '/api/get/asset', {
-      method: 'POST',
-      mode: 'cors',
-      body: data,
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    }).then(res => res.json())
-      .then(result => {
-        this.deposit = result.hasOwnProperty("depositReceipt")
-        this.mortgage = result.hasOwnProperty("mortgageReceipt")
-        this.additional = result.hasOwnProperty("additionalFundsReceipt")
-        this.escrow = result.hasOwnProperty("escrowPayoutReceipt")
-      });
-      // console.log(result);
+      fetch(process.env.BACKEND_URL + '/api/get/asset', {
+        method: 'POST',
+        mode: 'cors',
+        body: data,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }).then(res => res.json())
+        .then(result => {
+          this.deposit = result.hasOwnProperty("depositReceipt")
+          this.mortgage = result.hasOwnProperty("mortgageReceipt")
+          this.transfer = result.hasOwnProperty("additionalFundsReceipt")
+          this.sdlt = result.hasOwnProperty("escrowPayoutReceipt")
+          this.register = result.hasOwnProperty("escrowPayoutReceipt")
+        });
+    }
+  },
+  
+  created: async function () {
+
+    var interval = window.setInterval(this.updatestatus, 2000);
+    console.log("Exchange ID: " + this.$route.params.exchangeid);
+    const contractId = this.$route.params.exchangeid.substring(16);
+    console.log("Contract ID: " + contractId);
+    this.contract = await this.loadContract(contractId);
   },
 }
 

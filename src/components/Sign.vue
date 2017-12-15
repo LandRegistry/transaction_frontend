@@ -24,7 +24,6 @@
                   </div>
                 </div> -->
       <p>A copy of this contract has now been sent to the relevant party. Please await their approval.</p>
-      <button v-on:click="pay" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Exchange Money</button>
     </div>
 
   </div>
@@ -67,14 +66,14 @@ export default {
       }.bind(this));
 
      },
-    pay: function() {
-      this.$router.push('/payment/propertyExchange'+this.$route.params.propId);
-    },
+    // pay: function() {
+    //   this.$router.push('/payment/propertyExchange'+this.$route.params.propId);
+    // },
     sign: async function() {
 
       // Redirect if we are successful
       if (this.isSuccess) {
-        window.location.href = 'http://hmlr-ds-landingscreen.eu-gb.mybluemix.net/#/Landing'
+        window.location.href = process.env.LANDING_SCREEN_URL + '/#/Landing'
       }
 
       // extract from passed info store?

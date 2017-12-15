@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-top: 240px;">
+  <div style="margin-top: 280px;">
 <div class="headerText">
     <div class="pageTitle">Create your own Contract</div>
     <div class="subTitle">STEP 2</div>
@@ -23,8 +23,8 @@
                     <i class="material-icons">error</i>
                   </div>
                 </div> -->
-      <p>A copy of this contract has now been sent to the relevant party. Please await their approval.</p>
-      <button v-on:click="pay" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Exchange Money</button>
+      <p>This contract has been signed by the seller, by signing this contract you are agreeing to the terms of the contract.</p>
+      <p>Once you have signed the contract your deposit will be paid and you will be committed to the purchase of the property.</p>
     </div>
 
   </div>
@@ -35,7 +35,9 @@ export default {
   props: ['propId'],
   data() {
     return {
-      isSuccess: false
+      isSuccess: false,
+      buyerid:100000008,
+      depositprice: 18000
     }
   },
   async created(){
@@ -74,7 +76,7 @@ export default {
 
       // Redirect if we are successful
       if (this.isSuccess) {
-        window.location.href = 'http://hmlr-ds-landingscreen.eu-gb.mybluemix.net/#/Landing'
+        window.location.href = process.env.LANDING_SCREEN_URL + '/#/Landing'
       }
 
       // extract from passed info store?
@@ -99,7 +101,6 @@ export default {
       });
 
       if (response.ok) {
-        this.isSuccess = true;
         var data = JSON.stringify({
           propertyExchangeId:"propertyExchange".concat(this.$route.params.propId),
           propertyExchangeStatus:"CONTRACT_SIGNED",
@@ -114,7 +115,43 @@ export default {
           'Content-Type': 'application/json',
         }
       });
+      this.paydeposit();
       }
+    },
+
+    paydeposit: async function() {
+      this.loading = true;
+      var data = JSON.stringify({
+        "receiptId": Math.floor(Math.random() * 1000000).toString(),
+	      "attributes": {
+          "buyer": {
+            "namespace": "org.hmlr.model",
+            "type": "Buyer",
+            "id": this.buyerid
+          },
+          "ammountInGBP": this.depositprice
+        },
+        "propertyExchangeId": "propertyExchange".concat(this.$route.params.propId),
+        "user": this.buyerid
+      })
+      console.log(data);
+      const response =fetch(process.env.BACKEND_URL + '/api/payment/deposit', {
+        method: 'POST',
+        mode: 'cors',
+        body: data,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }).then(
+        function(data){
+          console.log(data);
+          console.log(data.status);
+          if(data.status==200){
+            this.isSuccess = true;
+            console.log("Enter");
+            // this.callmortgage();
+          }
+      }.bind(this));
     }
   }
 }
