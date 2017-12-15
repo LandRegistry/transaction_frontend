@@ -73,7 +73,7 @@ export default {
 
       // Redirect if we are successful
       if (this.isSuccess) {
-        window.location.href = 'https://hmlr-ds-landingscreen.eu-gb.mybluemix.net/#/Landing'
+        window.location.href = process.env.LANDING_SCREEN_URL + '/#/Landing'
       }
 
       // extract from passed info store?

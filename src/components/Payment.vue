@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-top: 220px;">
+  <div style="margin-top: 260px;">
     <div class="pageTitle">Payment</div>
     <div class="subTitle">STEP 4</div>
     <div class="details">
@@ -179,26 +179,6 @@ export default {
         }
       }).then(function(data){
         console.log(data);
-        this.changestatuspayment();
-      }.bind(this));
-    },
-    
-    changestatuspayment: function(){
-      var data = JSON.stringify({
-          propertyExchangeId:this.$route.params.exchangeid,
-          propertyExchangeStatus: "PAYMENT_COMPLETED",
-          user:"admin"
-         });
-
-      const response = fetch(process.env.BACKEND_URL + '/api/propertyExchange/updateStatus', {
-        method: 'POST',
-        mode: 'cors',
-        body: data,
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      }).then(function(data){
-        console.log(data);
         this.changestatusbuyer();
       }.bind(this));
     },
@@ -225,7 +205,7 @@ export default {
 
     updateregistry: function(){
       var data = JSON.stringify({
-        "propertyExchangeId": this.$route.params.exchangeid,
+        "propertyExchangeId":this.$route.params.exchangeid,
         "user": "hmlr"
       })
       console.log(data);
@@ -237,54 +217,74 @@ export default {
           'Content-Type': 'application/json',
         }
       }).then(function(data){
-        console.log(data);
         this.changestatuscompleted();
+        console.log(data);
       }.bind(this));
-    }
-  },
+    },
+    changestatuscompleted: function(){
+      var data = JSON.stringify({
+          propertyExchangeId: this.$route.params.exchangeid,
+          propertyExchangeStatus: "REGISTRY_UPDATED",
+          user:"admin"
+          });
 
-  changestatuscompleted: function(){
-    var data = JSON.stringify({
-        propertyExchangeId: this.$route.params.exchangeid,
-        propertyExchangeStatus: "COMPLETED",
-        user:"admin"
-        });
+      const response = fetch(process.env.BACKEND_URL + '/api/propertyExchange/updateStatus', {
+        method: 'POST',
+        mode: 'cors',
+        body: data,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }).then(function(data){
+        console.log(data);
+        location.reload();
+      }.bind(this));
+    },
 
-    const response = fetch(process.env.BACKEND_URL + '/api/propertyExchange/updateStatus', {
-      method: 'POST',
-      mode: 'cors',
-      body: data,
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    }).then(function(data){
-      console.log(data);
-      location.reload();
-    }.bind(this));
-  },
-
-  created: function () {
-    var data = JSON.stringify({
+    updatestatus: function () {
+      var data = JSON.stringify({
         type: "PropertyExchange",
         id: this.$route.params.exchangeid,
         user: "hmlr"
     })
 
-    fetch(process.env.BACKEND_URL + '/api/get/asset', {
-      method: 'POST',
-      mode: 'cors',
-      body: data,
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    }).then(res => res.json())
-      .then(result => {
-        this.deposit = result.hasOwnProperty("depositReceipt")
-        this.mortgage = result.hasOwnProperty("mortgageReceipt")
-        this.transfer = result.hasOwnProperty("escrowPayoutReceipt")
-        this.sdlt = result.hasOwnProperty("additionalFundsReceipt")
-        this.register = result.hasOwnProperty("additionalFundsReceipt")
-      });
+      fetch(process.env.BACKEND_URL + '/api/get/asset', {
+        method: 'POST',
+        mode: 'cors',
+        body: data,
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }).then(res => res.json())
+        .then(result => {
+          this.deposit = result.hasOwnProperty("depositReceipt")
+          this.mortgage = result.hasOwnProperty("mortgageReceipt")
+          this.transfer = result.hasOwnProperty("escrowPayoutReceipt")
+          this.sdlt = result.hasOwnProperty("additionalFundsReceipt")
+          this.register = result.hasOwnProperty("additionalFundsReceipt")
+        });
+    }
+  },
+  
+  created: function () {
+
+    var interval = window.setInterval(this.updatestatus, 1000);
+
+    // fetch(process.env.BACKEND_URL + '/api/get/asset', {
+    //   method: 'POST',
+    //   mode: 'cors',
+    //   body: data,
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   }
+    // }).then(res => res.json())
+    //   .then(result => {
+    //     this.deposit = result.hasOwnProperty("depositReceipt")
+    //     this.mortgage = result.hasOwnProperty("mortgageReceipt")
+    //     this.transfer = result.hasOwnProperty("escrowPayoutReceipt")
+    //     this.sdlt = result.hasOwnProperty("additionalFundsReceipt")
+    //     this.register = result.hasOwnProperty("additionalFundsReceipt")
+    //   });
       // console.log(result);
   },
 }

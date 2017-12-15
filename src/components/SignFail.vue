@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-top: 240px;">
+  <div style="margin-top: 280px;">
 <div class="headerText">
     <div class="pageTitle">Create your own Contract</div>
     <div class="subTitle">STEP 2</div>
@@ -76,7 +76,7 @@ export default {
 
       // Redirect if we are successful
       if (this.isSuccess) {
-        this.$router.push('/payment/propertyExchange'+this.$route.params.propId);
+        window.location.href = process.env.LANDING_SCREEN_URL + '/#/Landing'
       }
 
       // extract from passed info store?
