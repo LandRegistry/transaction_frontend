@@ -94,7 +94,11 @@ export default {
   },
   computed: {
     formattedCompletionDate: function() {
-      return moment(this.contract.completionDate).format('DD MMMM YYYY');
+      if (this.contract.completionDate) {
+        return moment(this.contract.completionDate).format('DD MMMM YYYY');
+      } else {
+        return ''
+      }
     },
   },
   methods: {
