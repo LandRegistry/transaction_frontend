@@ -43,7 +43,7 @@
           <h6>{{ this.contract.contractTerms }}</h6>
           <hr>
           <!-- Contract -->
-          <h5>Contract Details</h5>
+          <!-- <h5>Contract Details</h5> -->
           <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p> -->
           <!-- <a href="#/sign">Read Details of Contract</a> -->
           <br>
