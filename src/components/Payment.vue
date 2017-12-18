@@ -104,6 +104,11 @@ export default {
 
     }
   },
+  async created() {
+    // Get contract
+    const contractId = 'contract' + this.$route.params.exchangeid.substring(16);
+    this.contract = await this.loadContract(contractId);
+  },
   computed: {
     formattedCompletionDate: function() {
       return moment(this.contract.completionDate).format('DD MMMM YYYY');
@@ -295,15 +300,6 @@ export default {
           this.register = result.hasOwnProperty("escrowPayoutReceipt")
         });
     }
-  },
-  
-  created: async function () {
-
-    //var interval = window.setInterval(this.updatestatus, 2000);
-    console.log("Exchange ID: " + this.$route.params.exchangeid);
-    const contractId = this.$route.params.exchangeid.substring(16);
-    console.log("Contract ID: " + contractId);
-    this.contract = await this.loadContract(contractId);
   },
 }
 
