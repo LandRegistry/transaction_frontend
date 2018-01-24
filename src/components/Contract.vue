@@ -191,8 +191,8 @@ export default {
       terms: '',
       loading: false,
       address: {
-         firstLine: '21 Cotham Lawn Road',
-        city: 'Bristol'
+         firstLine: '1 Digital Street',
+        city: 'England'
       }
       
     }
@@ -201,8 +201,8 @@ export default {
   methods: {
     findProperty: function() {
       this.address = {
-        firstLine: '21 Cotham Lawn Road',
-        city: 'Bristol'
+        firstLine: '1 Digital Street',
+        city: 'England'
       }
       this.propertyId = this.$route.params.propId;
       console.log("propertyId",this.propId);
