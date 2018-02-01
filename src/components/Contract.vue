@@ -19,7 +19,7 @@
 <hr>
 <h5>Address</h5>
 <address class="address">
-          <h6>{{address.firstLine}} <br> {{address.city}}</h6>
+          <h6>{{address.firstLine}} <br> {{address.city}} <br> {{address.postcode}}</h6>
         </address>
 <div class="findAddress"> 
   <span>Price</span>
@@ -184,7 +184,7 @@ export default {
     return {
       buyer: {},
       seller: {},
-      postcode: '',
+      postcode: 'HM1 2LR',
       propertyId: this.$route.params.propId,
       dateOfCompletion: new Date(),
       price: 180000,
@@ -192,7 +192,8 @@ export default {
       loading: false,
       address: {
          firstLine: '1 Digital Street',
-        city: 'England'
+        city: 'England',
+        postcode: 'HM1 2LR'        
       }
       
     }
@@ -202,7 +203,8 @@ export default {
     findProperty: function() {
       this.address = {
         firstLine: '1 Digital Street',
-        city: 'England'
+        city: 'England',
+        postcode: 'HM1 2LR'
       }
       this.propertyId = this.$route.params.propId;
       console.log("propertyId",this.propId);
