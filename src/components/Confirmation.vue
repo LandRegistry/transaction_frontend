@@ -17,7 +17,6 @@
       <h4>Buyer Contract Details</h4>
       <hr>
       <h5>Property Address</h5>
-      <h6 v-if="contract.property">{{ extractPostcode(contract.property.address) }}</h6>
       <p>
         <div v-if="contract.property" >
           {{ extractAddressLine(0, contract.property.address) }}
