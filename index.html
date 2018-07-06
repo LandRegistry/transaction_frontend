@@ -44,6 +44,19 @@
   <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.teal-red.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.5/leaflet.css" />
   <style>
+
+    .blue {
+      background-color: #488aff !important;
+      color: #fff !important;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: "Helvetica", "Arial", sans-serif;
+        color: #333;
+    }
+
     #view-source {
       position: fixed;
       display: block;
@@ -86,35 +99,92 @@
       padding: 0 16px 0 20px;
     }
 
-    .mdl-layout__header {
-      background-color: #0C1D3B;
-    }
-
     .home-icon{
       font-size: 17px;
       margin-top: -2px;
+    }
+
+    .header {
+      position: relative;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      /* line-height: 80px; */
+      background-color: #fff;
+      box-shadow: 0 0 25px rgba(0,0,0,0.1);
+      padding: 0 200px;
+      /* margin-bottom: 50px; */
+      border-bottom: 1px solid black;
+    }
+
+    .title-section {
+        height: 100%;
+        float: left;
+    }
+
+    .title-main {
+        font-size: 1.3em;
+        line-height: 80px;
+        color: #000;
+        text-decoration: none;
+    }
+
+    .title-sub {
+        color: #000;
+        font-size: 1.3em;
+        text-decoration: none;
+        font-weight: 200;
+    }
+
+    .title-sub-section {
+        height: 100%;
+        float: left;
+        padding-top: 20px;
+    }
+
+    .subtitle {
+        font-size: 1em;
+        color: #000;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .logo {
+        height: 100%;
+        float: right;
+        display: flex;
+        align-items : center;
+    }
+
+    .logo img {
+        vertical-align: middle;
+    }
+
+    .mdl-button {
+      text-transform: none;
     }
   </style>
 </head>
 
 <body>
-  <div class="demo-layout mdl-layout mdl-layout--fixed-header mdl-js-layout" style="background-color: #0c1e3b; padding-bottom: 200px;">
+  <div class="demo-layout mdl-layout mdl-layout--fixed-header mdl-js-layout" style="padding-bottom: 200px;">
     <header class="demo-header mdl-layout__header mdl-layout__header--scroll">
-      <div class="mdl-layout__header-row">
-        <span class="mdl-layout-title">HMLR Transaction</span>
-        <div class="mdl-layout-spacer"></div>
-          <!-- <i class="material-icons home-icon">home</i>
-          <a href="/" style="text-decoration:none; color:white;">
-          <span class="mdl-layout-title">SELLER</span>
-        </a>&nbsp;&nbsp; -->
-        <i class="material-icons home-icon">home</i>
-        <a href="http://hmlr-ds-landingscreen.eu-gb.mybluemix.net/#/Landing" style="text-decoration:none; color:white;">
-          <span class="mdl-layout-title">HOME</span>
-        </a>
-      </div>
+        <div class="header">  
+            <div class="title">
+              <div class="title-sub-section">
+                <a class="title-sub" href="http://hmlr-ds-landingscreen.eu-gb.mybluemix.net/#/Landing">Digital Street
+                <br>
+                <p class="subtitle">Property exchange assistant</p></a>
+              </div>
+            </div>
+            <div class="logo">
+              <img src="../../static/hmlr_logo.png" width="175" alt="HM Land Registry Logo">
+            </div>
+          </div>
     </header>
     <!-- <div class="demo-ribbon"></div> -->
-    <main class="demo-main mdl-layout__content" style="background-color: #0c1e3b;">
+    <main class="demo-main mdl-layout__content">
       <div class="demo-container mdl-grid">
         <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
         <div class="demo-content content mdl-cell mdl-cell--8-col">

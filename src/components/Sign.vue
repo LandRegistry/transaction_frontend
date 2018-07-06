@@ -1,22 +1,18 @@
 <template>
-  <div style="margin-top: 240px;">
-<div class="headerText">
-    <div class="pageTitle"></div>
-    <div class="subTitle"></div>
-</div>
-    <div class="details">
-      <h4>Use your touch ID to sign the contract</h4>
-      <!-- <p>ipsum quia dolor sit amet, consectetur, adipisci velit</p> -->
+  <div style="margin-top: 160px;">
 
-      <button v-on:click="sign" class="mdl-button mdl-js-button mdl-button--icon" style="width: 300px; height: 300px; min-width: initial;">
-        <i class="material-icons md-200" v-bind:class="{ success: isSuccess }">fingerprint</i>
+    <div class="details">
+      <h4 v-if="!isSigning && !isSuccess">Use your touch ID to sign your contract</h4>
+      <h4 v-else-if="isSigning">Signing your contract...</h4>
+      <h4 v-else>Contract signed</h4>
+      <button v-on:click="sign" class="mdl-button mdl-js-button fingerprint" style="height: 300px;">
+        <!-- <i class="material-icons md-200" v-bind:class="{ success: isSuccess }">fingerprint</i> -->
+        <img v-if="isSuccess" src="../../static/touch id green cropped.png" width="300px">
+        <img v-else src="../../static/touch id black.png" width="300px">
       </button>
 
-      <p v-if="isSuccess">
-        A copy of this contract has now been sent to the relevant party. Please await their approval.
-      </p>
       <p v-if="isSigning">
-        Please wait... <pulse-loader :loading="isSigning"></pulse-loader>
+        <pulse-loader style="margin-top: 20px;" :color="color" :loading="isSigning"></pulse-loader>
       </p>
     </div>
 
@@ -32,6 +28,7 @@ export default {
   props: ['propId'],
   data() {
     return {
+      color: '#488aff',
       isSuccess: false,
       isSigning: false
     }
@@ -126,15 +123,11 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .material-icons.md-200 {
-  font-size: 200px;
+  font-size: 350px;
 }
 
 .mdl-button .material-icons {
-  vertical-align: middle;
-}
-
-.mdl-button--icon .material-icons {
-  transform: translate(-100px, -35px);
+  margin-top: -80px; 
 }
 
 .pageTitle {
@@ -154,26 +147,32 @@ export default {
 
 .details {
   /* margin-top: 200px; */
-  background-color: #0C1D3B;
-  color: white;
+  /* color: white; */
   text-align: center;
   position: relative;
   left: 0;
-   padding-top: 25px;
+  padding-top: 25px;
   height: 600px;
 }
 
 .success {
-  background-color: limegreen;
   color: limegreen;
 }
 
 .headerText {
-      background-color: #0C1D3B;
     position: absolute;
     width: 100%;
     left: 0;
     height: 80px;
     margin-top: -23px;
 }
+
+.fingerprint {
+  /* width: 400px;
+  height: 400px; */
+  min-width: initial;
+  background: 0;
+  /* margin-bottom: -30px; */
+}
+
 </style>

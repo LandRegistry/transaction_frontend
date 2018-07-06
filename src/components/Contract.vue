@@ -1,131 +1,35 @@
 <template>
-  <div style="margin-top: 240px;">
-    <div class="headerText">
-      <div class="pageTitle"></div>
-      <div class="subTitle"></div>
-    </div>
-    <!-- <div class="mdl-card mdl-shadow--2dp" style="top:33px;">
-      <div class="mdl-card__title">
-        <h2 class="mdl-card__title-text">What is this?</h2>
-      </div>
-      <div class="address-details mdl-card__supporting-text">
-         Seller Contract Details
-      </div>
-    </div> -->
+  <div style="margin-top: 180px;">
     <div class="details">
-
-<h3>Create a contract</h3>
-<h4>Seller contract details</h4>
-<hr>
-<h5>Address</h5>
-<address class="address">
-          <h6>{{address.firstLine}} <br> {{address.city}} <br> {{address.postcode}}</h6>
-        </address>
-<div class="findAddress"> 
-  <span>Price</span>
-            <input v-model.number="price" class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="price"></div>
-            
-<hr>
-<h5>Seller</h5>
-<h6 class="participant">{{seller.title}} {{seller.firstName}} {{seller.lastName}} </h6>
-<hr>
-<h5>Buyer</h5>
-<h6 class="participant">{{buyer.title}} {{buyer.firstName}} {{buyer.lastName}}</h6>
-<hr>
-<h5>Completion Date</h5>
-<datepicker v-model="dateOfCompletion" name="dateOfCompletion"></datepicker>
-<hr>
-<h5>Additional Terms</h5>
-<textarea v-model="terms"></textarea>
-<hr>
-<h5>Automated Contract</h5>
-<button v-on:click="save" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Create</button>
-<pulse-loader :loading="loading"></pulse-loader>
-</div>
-    <!-- <div class="mdl-card mdl-shadow--2dp">
-      <div class="mdl-card__title">
-        <h2 class="mdl-card__title-text">Address</h2> -->
-        <!-- <i v-if="propertyId" class="material-icons">done</i> -->
-      <!-- </div>
-      <div class="address-details mdl-card__supporting-text">
-        <div class="findAddress"> -->
-<!-- 
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            
-            <input v-model="postcode" class="mdl-textfield__input" type="text" id="postcode">
-            <label class="mdl-textfield__label" for="postcode">Postcode</label>
-          </div> -->
-
-          <!-- <button v-on:click="findProperty" class="findButton mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Find</button> -->
-
-          <!-- <div class="mdl-textfield mdl-js-textfield">
-            <span>Price</span>
-            <input v-model.number="price" class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="price">
-            <span class="mdl-textfield__error">Not a valid price!</span>
-          </div>
-
-        </div>
-        <address class="address">
-          {{address.firstLine}} <br> {{address.city}}
-        </address>
-      </div>
-    </div> -->
-
-    <!-- <div class="mdl-card mdl-shadow--2dp">
-      <div class="mdl-card__title">
-        <h2 class="mdl-card__title-text">Seller</h2>
-      </div>
-      <div class="address-details mdl-card__supporting-text">
-        <h5 class="participant">{{seller.title}} {{seller.firstName}} {{seller.lastName}} </h5>
-      </div>
+      <h3>Create a contract</h3>
+      <h4>Seller contract details</h4>
+      <hr>
+      <h5>Address</h5>
+      <address class="address">
+        <h6>{{address.firstLine}} <br> {{address.city}} <br> {{address.postcode}}</h6>
+      </address>
+      <hr>
+      <div class="findAddress"> 
+        <h5>Price</h5>
+        <span class="money-input">£  <input v-model.number="price" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="price"></span>
+      </div>  
+      <hr>
+      <h5>Seller</h5>
+      <h6 class="participant">{{seller.title}} {{seller.firstName}} {{seller.lastName}} </h6>
+      <hr>
+      <h5>Buyer</h5>
+      <h6 class="participant">{{buyer.title}} {{buyer.firstName}} {{buyer.lastName}}</h6>
+      <hr>
+      <h5>Completion Date</h5>
+      <datepicker v-model="dateOfCompletion" name="dateOfCompletion"></datepicker>
+      <hr>
+      <h5>Additional Terms</h5>
+      <textarea v-model="terms"></textarea>
+      <hr>
+      <button v-on:click="save" class="mdl-button mdl-button--raised blue">Create contract</button>
+      <pulse-loader :loading="loading" :color="color"></pulse-loader>
     </div>
 
-    <div class="mdl-card mdl-shadow--2dp">
-      <div class="mdl-card__title">
-        <h2 class="mdl-card__title-text">Buyer</h2>
-      </div>
-      <div class="address-details mdl-card__supporting-text">
-        <h5 class="participant">{{buyer.title}} {{buyer.firstName}} {{buyer.lastName}}</h5>
-      </div>
-    </div>
-
-    <div class="mdl-card mdl-shadow--2dp">
-      <div class="mdl-card__title">
-        <h2 class="mdl-card__title-text">Completion Date</h2>
-        <i class="material-icons">done</i>
-      </div>
-      <div class="mdl-card__supporting-text"> -->
-        <!-- <p>DummyText Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p> -->
-        <!-- <datepicker v-model="dateOfCompletion" name="dateOfCompletion"></datepicker>
-      </div>
-    </div>
-
-    <div class="mdl-card mdl-shadow--2dp">
-      <div class="mdl-card__title">
-        <h2 class="mdl-card__title-text">Additional Terms</h2>
-        <i class="material-icons">done</i>
-      </div>
-      <div class="mdl-card__supporting-text">
-        <textarea v-model="terms"></textarea>
-      </div>
-    </div>
-
-    <div class="mdl-card mdl-shadow--2dp">
-      <div class="mdl-card__title">
-        <h2 class="mdl-card__title-text">Automated Contract</h2>
-      </div>
-      <div class="mdl-card__supporting-text"> -->
-        <!-- <p>
-          DummyText Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-          <a href="#">Read Details of Contract</a> Aenean commodo ligula eget dolor. Aenean massa.
-        </p>
-        <p>
-          DummyText Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. DummyText Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.
-        </p> -->
-        <!-- <button v-on:click="save" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Create</button>
-      </div>
-      <pulse-loader :loading="loading"></pulse-loader> -->
-    <!-- </div> -->
   </div>
 </template>
 
@@ -190,8 +94,9 @@ export default {
       price: 180000,
       terms: '',
       loading: false,
+      color: '#488aff',
       address: {
-         firstLine: '1 Digital Street',
+        firstLine: '1 Digital Street',
         city: 'England',
         postcode: 'HM1 2LR'        
       }
@@ -267,14 +172,21 @@ function uuidv4() {
     return v.toString(16);
   });
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+input {
+  font-size: 16px;
+}
+
 textarea {
-  width: 98%;
+  width: 60%;
   height: 100px;
 }
+
 .text{
   width:100%;
   text-align:left;
@@ -299,12 +211,12 @@ address {
   text-align: left;
 }
 
-  .pageTitle {
-    color: white;
-    font-size: 25px;
-    padding-bottom: 10px;
-    margin-left: -150px;
-  }
+.pageTitle {
+  color: white;
+  font-size: 25px;
+  padding-bottom: 10px;
+  margin-left: -150px;
+}
 
 .headerText {
   background-color: #0C1D3B;
@@ -332,9 +244,19 @@ address {
   background-color: white;
   height:950px;
 }
-</style>
-<style>
-.vdp-datepicker .vdp-datepicker__calendar {
-  position: static;
+
+.money-input {
+  font-size: 16px;
 }
+
+</style>
+
+<style>
+  .vdp-datepicker .vdp-datepicker__calendar {
+    position: static;
+  }
+
+  .vdp-datepicker input {
+    font-size: 16px;
+  }
 </style>

@@ -1,18 +1,16 @@
 <template>
-  <div style="margin-top: 260px;">
-    <div class="pageTitle"></div>
-    <div class="subTitle"></div>
+  <div style="margin-top: 220px;">
     <div class="details">
-      <h4>Relax, we'll sort out all the money.</h4>
 
-      <!-- <p>ipsum quia dolor sit amet, consectetur, adipisci velit</p> -->
+      <!-- <i class="material-icons md-200 red">credit_card</i> -->
+      <img src="../../static/screen 20 card icon.png" width=150>
 
-      <i class="material-icons md-200 red">credit_card</i>
+      <h6>These steps need to happen before you can complete on the sale of the property.</h6>
 
       <div class="demo-list-action mdl-list">
         <div class="mdl-list__item">
           <span class="mdl-list__item-primary-content">
-            <span>Deposit paid by buyer</span>
+            <h5>Deposit paid by buyer</h5>
           </span>
           <a class="mdl-list__item-secondary-action" href="#">
             <i v-if="deposit" class="material-icons green">done</i>
@@ -21,7 +19,7 @@
         </div>
         <div class="mdl-list__item">
           <span class="mdl-list__item-primary-content">
-            <span>Draw down mortgage</span>
+            <h5>Draw down mortgage</h5>
           </span>
           <a class="mdl-list__item-secondary-action" href="#">
             <i v-if="mortgage" class="material-icons green">done</i>
@@ -30,7 +28,7 @@
         </div>
         <div class="mdl-list__item">
           <span class="mdl-list__item-primary-content">
-            <span>Transfer funds to seller</span>
+            <h5>Transfer funds to seller</h5>
           </span>
           <span class="mdl-list__item-secondary-content">
             <a class="mdl-list__item-secondary-action" href="#">
@@ -41,7 +39,7 @@
         </div>
         <div class="mdl-list__item">
           <span class="mdl-list__item-primary-content">
-            <span>Stamp Duty Land Tax paid</span>
+            <h5>Stamp duty land tax paid</h5>
           </span>
           <span class="mdl-list__item-secondary-content">
             <a class="mdl-list__item-secondary-action" href="#">
@@ -52,7 +50,7 @@
         </div>
         <div class="mdl-list__item">
           <span class="mdl-list__item-primary-content">
-            <span>Register Updated</span>
+            <h5>Register updated</h5>
           </span>
           <span class="mdl-list__item-secondary-content">
             <a class="mdl-list__item-secondary-action" href="#">
@@ -62,13 +60,12 @@
           </span>
         </div>
       </div>
-      <p>The above funds have been paid or are waiting to be paid by others.</p>
-      <button v-if="!register && !loading" v-on:click="callmortgage" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Completion</button>
+      <button v-if="!register && !loading" v-on:click="callmortgage" class="mdl-button mdl-js-button mdl-button--raised blue">Complete</button>
       <p v-if="loading">
-        Please wait... <pulse-loader :loading="loading"></pulse-loader>
+        <pulse-loader :color="color" :loading="loading"></pulse-loader>
       </p>
       <p v-if="register">
-        Congratulations - you now own the property!
+        Congratulations, you now own the property!
       </p>
     </div>
 
@@ -84,7 +81,10 @@ export default {
   },
   data() {
     return {
-      contract: {},
+      color: '#488aff',
+      contract: {
+        completionDate: "2018-02-15"
+      },
       deposit: true, // it should be done by now so default true to avoid showing date for a few seconds
       mortgage: false,
       additional: false,
@@ -112,7 +112,7 @@ export default {
   computed: {
     formattedCompletionDate: function() {
       if (this.contract.completionDate) {
-        return moment(this.contract.completionDate).format('DD MMMM YYYY');
+        return moment(this.contract.completionDate).format('Do MMMM YYYY');
       } else {
         return 'Checking...'
       }
@@ -311,6 +311,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+a {
+  color: #488aff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
 .material-icons.md-200 {
   font-size: 200px;
 }
@@ -324,7 +330,6 @@ export default {
 }
 
 .pageTitle {
-  color: white;
   font-size: 25px;
   margin-top: -75px;
   padding-bottom: 10px;
@@ -332,7 +337,6 @@ export default {
 }
 
 .subTitle {
-  color: white;
   font-size: 17px;
   padding-bottom: 20px;
   margin-left: -265px;
@@ -340,8 +344,6 @@ export default {
 
 .details {
   /* margin-top: 200px; */
-  background-color: #0C1D3B;
-  color: white;
   text-align: center;
   position: relative;
   left: 0;
@@ -356,10 +358,15 @@ export default {
 
 
 .mdl-list__item-primary-content {
-  color: white;
+  /* color: white; */
   margin-left: 10%;
   margin-right:10%;
 }
+
+.mdl-list__item {
+  padding: 0px;
+}
+
 .material-icons.green { color: #62A11E; }
 
 .material-icons.red { color: #E2324C; }

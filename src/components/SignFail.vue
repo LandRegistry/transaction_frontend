@@ -1,37 +1,23 @@
 <template>
-  <div style="margin-top: 280px;">
-<div class="headerText">
-    <div class="pageTitle"></div>
-    <div class="subTitle"></div>
-</div>
+  <div style="margin-top: 220px;">
     <div class="details">
-      <h4>Use your touch ID to sign the contract</h4>
-      <!-- <p>ipsum quia dolor sit amet, consectetur, adipisci velit</p> -->
+      <div v-if="!isSigning && !isSuccess">
+        <h4>Sign your contract</h4>
+        <p>This contract has been signed by the seller.<br>
+If you’re happy with the terms and conditions then you can sign your contract with your touch ID.<br>
+Once you’ve signed the contract your deposit will be paid and you’ll be committed to the purchase of the property.</p>
+      </div>
 
-      <button v-on:click="sign" class="mdl-button mdl-js-button mdl-button--icon" style="width: 300px; height: 300px; min-width: initial;">
-        <i class="material-icons md-200" v-bind:class="{ success: isSuccess }">fingerprint</i>
+      <h4 v-else-if="isSigning">Signing your contract...</h4>
+      <h4 v-else>You have successfully signed the contract and paid the deposit!</h4>
+
+      <button v-on:click="sign" class="mdl-button mdl-js-button fingerprint" style="height: 300px;">
+        <!-- <i class="material-icons md-200" v-bind:class="{ success: isSuccess }">fingerprint</i> -->
+        <img v-if="isSuccess" src="../../static/touch id green cropped.png" width="300px">
+        <img v-else src="../../static/touch id black.png" width="300px">
       </button>
-      <!-- <div v-if="signed" class="success">
-                  <div> Done </div>
-                  <div>
-                    <i class="material-icons">done</i>
-                  </div>
-                </div>
-                <div v-if="failed" class="fail">
-                  <div> Sign failed </div>
-                  <div>
-                    <i class="material-icons">error</i>
-                  </div>
-                </div> -->
       <p v-if="isSigning">
-        Please wait... <pulse-loader :loading="isSigning"></pulse-loader>
-      </p>
-      <p v-if="isSuccess">
-        You have successfully signed the contract and paid the deposit!
-      </p>
-      <p v-else>
-        This contract has been signed by the seller, by signing this contract you are agreeing to the terms of the contract.
-        Once you have signed the contract your deposit will be paid and you will be committed to the purchase of the property.
+        <pulse-loader style="margin-top: 20px;" :color="color" :loading="isSigning"></pulse-loader>
       </p>
     </div>
 
@@ -47,6 +33,7 @@ export default {
   props: ['propId'],
   data() {
     return {
+      color: '#488aff',
       isSuccess: false,
       isSigning: false,
       buyerid:100000008,
@@ -176,19 +163,18 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .material-icons.md-200 {
-  font-size: 200px;
+  font-size: 350px;
 }
 
 .mdl-button .material-icons {
-  vertical-align: middle;
+  margin-top: -80px; 
 }
 
 .mdl-button--icon .material-icons {
-  transform: translate(-100px, -35px);
+  /* transform: translate(-100px, -35px); */
 }
 
 .pageTitle {
-  color: white;
   font-size: 25px;
   margin-top: -75px;
   padding-bottom: 10px;
@@ -196,34 +182,37 @@ export default {
 }
 
 .subTitle {
-  color: white;
   font-size: 17px;
   padding-bottom: 20px;
   margin-left: -265px;
 }
 
 .details {
-  /* margin-top: 200px; */
-  background-color: #0C1D3B;
-  color: white;
   text-align: center;
   position: relative;
   left: 0;
-  /* padding-left: 25px; */
   height: 600px;
 }
 
 .success {
-  background-color: limegreen;
   color: limegreen;
 }
 
 .headerText {
-      background-color: #0C1D3B;
+    background-color: #0C1D3B;
     position: absolute;
     width: 100%;
     left: 0;
     height: 80px;
     margin-top: -23px;
 }
+
+.fingerprint {
+  /* width: 400px;
+  height: 400px; */
+  min-width: initial;
+  background: 0;
+  /* margin-top: -10px; */
+}
+
 </style>

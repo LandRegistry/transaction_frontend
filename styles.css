@@ -1,37 +1,25 @@
-/**
- * Copyright 2015 Google Inc. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Helvetica", "Arial", sans-serif;
+  color: #333;
+}
 
-.demo-ribbon {
-  width: 100%;
-  height: 40vh;
-  background-color: #3F51B5;
-  -webkit-flex-shrink: 0;
-      -ms-flex-negative: 0;
-          flex-shrink: 0;
+#view-source {
+  position: fixed;
+  display: block;
+  right: 0;
+  bottom: 0;
+  margin-right: 40px;
+  margin-bottom: 40px;
+  z-index: 900;
 }
 
 .demo-main {
   margin-top: -35vh;
   -webkit-flex-shrink: 0;
-      -ms-flex-negative: 0;
-          flex-shrink: 0;
-}
-
-.demo-header .mdl-layout__header-row {
-  padding-left: 40px;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
 }
 
 .demo-container {
@@ -40,24 +28,87 @@
   margin: 0 auto;
 }
 
-.demo-content {
-  border-radius: 2px;
-  padding: 80px 56px;
-  margin-bottom: 80px;
+.demo-ribbon {
+  width: 100%;
+  height: 40vh;
+  background-color: #0C1D3B;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
 }
 
-.demo-layout.is-small-screen .demo-content {
-  padding: 40px 28px;
+.mdl-layout-title {
+  font-size: 15px;
 }
 
-.demo-content h3 {
-  margin-top: 48px;
+.mdl-layout__header-row {
+  height: 30px;
+  color: white;
+  padding: 0 16px 0 20px;
 }
 
-.demo-footer {
-  padding-left: 40px;
+.home-icon{
+  font-size: 17px;
+  margin-top: -2px;
 }
 
-.demo-footer .mdl-mini-footer--link-list a {
-  font-size: 13px;
+.header {
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  /* line-height: 80px; */
+  background-color: #fff;
+  box-shadow: 0 0 25px rgba(0,0,0,0.1);
+  padding: 0 200px;
+  /* margin-bottom: 50px; */
+  border-bottom: 1px solid black;
+}
+
+.title-section {
+    height: 100%;
+    float: left;
+}
+
+.title-main {
+    font-size: 1.3em;
+    line-height: 80px;
+    color: #000;
+    text-decoration: none;
+}
+
+.title-sub {
+    color: #000;
+    font-size: 1.3em;
+    text-decoration: none;
+    font-weight: 200;
+}
+
+.title-sub-section {
+    height: 100%;
+    float: left;
+    padding-top: 20px;
+}
+
+.subtitle {
+    font-size: 1em;
+    color: #000;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.logo {
+    height: 100%;
+    float: right;
+    display: flex;
+    align-items : center;
+}
+
+.logo img {
+    vertical-align: middle;
+}
+
+.money-input:before {
+  content: '£   ';
 }
