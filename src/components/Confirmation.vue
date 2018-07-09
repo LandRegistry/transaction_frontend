@@ -102,7 +102,11 @@ export default {
       return lines[line];
     },
     formatPriceWithCommas: function(price) {
+      if (price) {
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      } else {
+        return "0";
+      }
     },
     loadContract: async function(contractId) {
 
