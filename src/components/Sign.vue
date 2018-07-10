@@ -70,39 +70,22 @@ export default {
       // Redirect if we are successful
       if (this.isSuccess) {
         window.location.href = process.env.LANDING_SCREEN_URL + '/#/Landing'
-      }
-
-      this.isSigning = true;
-
-      // extract from passed info store?
-      var userId = '100000002';
-      var contractId = 'contract'+this.$route.params.propId;
-
-      var data = JSON.stringify({
-        'type': 'ApproveContract',
-        'user': userId,
-        'attributes': {
-          'contractToUpdateId': contractId
-        }
-      });
-
-      const response = await fetch(process.env.BACKEND_URL + '/api/transaction', {
-        method: 'POST',
-        mode: 'cors',
-        body: data,
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      });
-
-      if (response.ok) {
-         var data = JSON.stringify({
-          propertyExchangeId:"propertyExchange".concat(this.$route.params.propId),
-          propertyExchangeStatus:"CONTRACT_CREATED",
-          user:"admin"
-         });
-
-        const response = await fetch(process.env.BACKEND_URL + '/api/propertyExchange/updateStatus', {
+      } else {
+        this.isSigning = true;
+  
+        // extract from passed info store?
+        var userId = '100000002';
+        var contractId = 'contract'+this.$route.params.propId;
+  
+        var data = JSON.stringify({
+          'type': 'ApproveContract',
+          'user': userId,
+          'attributes': {
+            'contractToUpdateId': contractId
+          }
+        });
+  
+        const response = await fetch(process.env.BACKEND_URL + '/api/transaction', {
           method: 'POST',
           mode: 'cors',
           body: data,
@@ -110,9 +93,26 @@ export default {
             'Content-Type': 'application/json',
           }
         });
+  
         if (response.ok) {
-          this.isSuccess = true;
-          this.isSigning = false;
+           var data = JSON.stringify({
+            propertyExchangeId:"propertyExchange".concat(this.$route.params.propId),
+            propertyExchangeStatus:"CONTRACT_CREATED",
+            user:"admin"
+           });
+  
+          const response = await fetch(process.env.BACKEND_URL + '/api/propertyExchange/updateStatus', {
+            method: 'POST',
+            mode: 'cors',
+            body: data,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          });
+          if (response.ok) {
+            this.isSuccess = true;
+            this.isSigning = false;
+          }
         }
       }
     }
@@ -171,7 +171,7 @@ export default {
   /* width: 400px;
   height: 400px; */
   min-width: initial;
-  background: 0;
+  background: 0 !important;
   /* margin-bottom: -30px; */
 }
 

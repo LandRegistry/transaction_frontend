@@ -77,47 +77,48 @@ export default {
       // Redirect if we are successful
       if (this.isSuccess) {
         window.location.href = process.env.LANDING_SCREEN_URL + '/#/Landing'
-      }
-
-      this.isSigning = true;
-
-      // extract from passed info store?
-      var userId = '100000008';
-      var contractId = 'contract'+this.$route.params.propId;
-
-      var data = JSON.stringify({
-        'type': 'ApproveContract',
-        'user': userId,
-        'attributes': {
-          'contractToUpdateId': contractId
-        }
-      });
-
-      const response = await fetch(process.env.BACKEND_URL + '/api/transaction', {
-        method: 'POST',
-        mode: 'cors',
-        body: data,
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      });
-
-      if (response.ok) {
+      } else {
+        this.isSigning = true;
+  
+        // extract from passed info store?
+        var userId = '100000008';
+        var contractId = 'contract'+this.$route.params.propId;
+  
         var data = JSON.stringify({
-          propertyExchangeId:"propertyExchange".concat(this.$route.params.propId),
-          propertyExchangeStatus:"CONTRACT_SIGNED",
-          user:"admin"
-         });
-
-      const response = await fetch(process.env.BACKEND_URL + '/api/propertyExchange/updateStatus', {
-        method: 'POST',
-        mode: 'cors',
-        body: data,
-        headers: {
-          'Content-Type': 'application/json',
+          'type': 'ApproveContract',
+          'user': userId,
+          'attributes': {
+            'contractToUpdateId': contractId
+          }
+  
+        });
+  
+        const response = await fetch(process.env.BACKEND_URL + '/api/transaction', {
+          method: 'POST',
+          mode: 'cors',
+          body: data,
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+  
+        if (response.ok) {
+          var data = JSON.stringify({
+            propertyExchangeId:"propertyExchange".concat(this.$route.params.propId),
+            propertyExchangeStatus:"CONTRACT_SIGNED",
+            user:"admin"
+           });
+  
+        const response = await fetch(process.env.BACKEND_URL + '/api/propertyExchange/updateStatus', {
+          method: 'POST',
+          mode: 'cors',
+          body: data,
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        });
+        this.paydeposit();
         }
-      });
-      this.paydeposit();
       }
     },
 
